@@ -4,7 +4,7 @@ using UnityEngine;
 public class ShapeColor
 {
     public readonly String ColorName;
-    public Color Value;
+    public Color32 Value;
     
     public ShapeColor(string colorName, Color value)
     {
