@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class Ball : MonoBehaviour {
 
@@ -11,11 +13,18 @@ public class Ball : MonoBehaviour {
 	
 	public Rigidbody2D rb;
 	public SpriteRenderer sr;
-
-	public string currentColor;
+	public Material smallBallMaterial;
+	public int currentColor;
 	private void Start ()
 	{
 		SpawnBall();
+		
+		var sides = Main.Difficulty;
+		if (sides <= 12) return;
+		if (sides <= 64)
+			BallSize(1/64f);
+		else throw new UnauthorizedAccessException();
+
 	}
 	
 	private void Update ()
@@ -38,7 +47,7 @@ public class Ball : MonoBehaviour {
 			return;
 		}
 
-		if (col.CompareTag("Untagged") || col.CompareTag(currentColor)) return;
+		if (col.CompareTag("Untagged") || col.CompareTag(currentColor.ToString())) return;
 		Debug.Log("GAME OVER!");
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
@@ -47,12 +56,20 @@ public class Ball : MonoBehaviour {
 	{
 		transform.position = spawnPosition;
 		var index = Random.Range(0, Main.UsedColors.Count - 1);
-		while (Main.UsedColors[index].ColorName == currentColor)
+		while (Main.UsedColors[index].ColorIndex == currentColor)
 		{
 			index = Random.Range(0, Main.UsedColors.Count - 1);
 		}
 		
-		currentColor = Main.UsedColors[index].ColorName;
+		currentColor = Main.UsedColors[index].ColorIndex;
 		sr.color = Main.UsedColors[index].Value;
+	}
+
+	private void BallSize(float newSize)
+	{
+		if (newSize > 0.1f)
+			transform.localScale = new Vector3(newSize, newSize);
+		else
+			sr.material = smallBallMaterial;
 	}
 }

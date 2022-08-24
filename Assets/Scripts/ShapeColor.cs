@@ -1,14 +1,13 @@
-using System;
 using UnityEngine;
 
 public class ShapeColor
 {
-    public readonly String ColorName;
+    public readonly int ColorIndex;
     public Color32 Value;
     
-    public ShapeColor(string colorName, Color value)
+    public ShapeColor(int colorIndex, Color value)
     {
-        this.ColorName = colorName;
+        ColorIndex = colorIndex;
         Value = value;
     }
 }
