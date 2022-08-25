@@ -276,6 +276,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 60133147503249114, guid: 2c369fc7dea438c4797da9d67fec4cb4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60193736382224272, guid: 2c369fc7dea438c4797da9d67fec4cb4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60511841592536748, guid: 2c369fc7dea438c4797da9d67fec4cb4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60807518812149876, guid: 2c369fc7dea438c4797da9d67fec4cb4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 212117567019509938, guid: 2c369fc7dea438c4797da9d67fec4cb4, type: 3}
       propertyPath: m_SortingLayer
       value: 1

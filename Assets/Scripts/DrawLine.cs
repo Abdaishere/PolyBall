@@ -1,21 +1,24 @@
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class DrawLine : MonoBehaviour
 {
-    public int sideNum;
+    public int sideNum = -1;
     public Vector3[] points;
-    public LineRenderer lineRenderer;
-
-    public void DrawLineInit(int num,float width, Vector3[] se)
+    private LineRenderer _lineRenderer;
+    public float width; 
+    public void DrawLineInit(int num,float w, Vector3[] se)
     {
-        lineRenderer.startColor = Main.UsedColors[num].Value;
-        lineRenderer.endColor = Main.UsedColors[num].Value;
         
-        // tag = Main.UsedColors[num].ColorIndex.ToString();
-        lineRenderer.startWidth = width;
-        lineRenderer.endWidth = width;
-        lineRenderer.numCapVertices = 70;
-        
+        _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.startColor = Main.UsedColors[num].Value;
+        _lineRenderer.endColor = Main.UsedColors[num].Value;
+        _lineRenderer.positionCount = 2;
+        _lineRenderer.startWidth = w;
+        _lineRenderer.endWidth = w;
+        _lineRenderer.numCapVertices = 70;
+
+        width = w;
         sideNum = num;
         points = se;
     }
@@ -23,8 +26,8 @@ public class DrawLine : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        lineRenderer.SetPositions(points);
-        
+        if (sideNum != -1)
+            _lineRenderer.SetPositions(points);
     }
 
     public void UpdatePoints(Vector3[] se)

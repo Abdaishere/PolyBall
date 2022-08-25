@@ -103,8 +103,8 @@ MonoBehaviour:
   speedUp: 10
   rb: {fileID: 9198415593517546746}
   sr: {fileID: 4617744727139664098}
-  smallBallMaterial: {fileID: 0}
-  currentColor: 0
+  smallBallMaterial: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  currentColor: -1
 --- !u!58 &4617744727139664103
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ public class Ball : MonoBehaviour {
 			return;
 		}
 
-		if (col.CompareTag("Untagged") || col.CompareTag(currentColor.ToString())) return;
+		if (col.gameObject.GetComponent<DrawLine>().sideNum == currentColor) return;
 		Debug.Log("GAME OVER!");
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}

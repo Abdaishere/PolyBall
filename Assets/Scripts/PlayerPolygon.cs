@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerPolygon : MonoBehaviour
@@ -18,6 +19,7 @@ public class PlayerPolygon : MonoBehaviour
     private void Start()
     {
         _sides = Main.Difficulty;
+        
         SetRotation();
         GetPoints();
         CreateLines();
