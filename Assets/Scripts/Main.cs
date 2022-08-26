@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -7,9 +8,13 @@ public class Main : MonoBehaviour
     public GameObject ball;
     public GameObject player;
 
-    public static List<ShapeColor> UsedColors;
+    public static List<Color32> UsedColors;
 
-    public  static readonly int Difficulty = 7;
+    public  static int Difficulty = 7;
+    public  static float Radius = 3.0f;
+    public static float LineWidth = 0.5f;
+    public static Boolean GameStarted = false;
+    
     private List<Color32> _allColors;
     
     // Start is called before the first frame update
@@ -38,7 +43,7 @@ public class Main : MonoBehaviour
             ));
         }
         // Add the used Colors
-        UsedColors = new List<ShapeColor>();
+        UsedColors = new List<Color32>();
         for (var i = 0; i < Difficulty; i++)
         {
             AddColor();
@@ -51,7 +56,7 @@ public class Main : MonoBehaviour
     private void AddColor()
     {
         var index = Random.Range(0, _allColors.Count);
-        UsedColors.Add(new ShapeColor(UsedColors.Count, _allColors[index]));
+        UsedColors.Add( _allColors[index]);
         _allColors.RemoveAt(index);
     }
     

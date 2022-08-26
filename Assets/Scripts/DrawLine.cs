@@ -1,4 +1,3 @@
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class DrawLine : MonoBehaviour
@@ -11,8 +10,8 @@ public class DrawLine : MonoBehaviour
     {
         
         _lineRenderer = GetComponent<LineRenderer>();
-        _lineRenderer.startColor = Main.UsedColors[num].Value;
-        _lineRenderer.endColor = Main.UsedColors[num].Value;
+        _lineRenderer.startColor = Main.UsedColors[num];
+        _lineRenderer.endColor = Main.UsedColors[num];
         _lineRenderer.positionCount = 2;
         _lineRenderer.startWidth = w;
         _lineRenderer.endWidth = w;

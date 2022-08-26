@@ -1,24 +1,25 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerPolygon : MonoBehaviour
 {
-    public float radius = 3;
+    public float radius;
 
     public GameObject liInterface;
 
     public List<Vector3> points;
     public List<GameObject> lines;
 
-    private const float Width = 0.5f;
+    private float _width;
     private int _sides;
     public float rotation;
     public float rotationAlpha;
     private const float Tau = 2 * Mathf.PI;
     private void Start()
     {
+        radius = Main.Radius;
         _sides = Main.Difficulty;
+        _width = Main.LineWidth;
         
         SetRotation();
         GetPoints();
@@ -54,14 +55,14 @@ public class PlayerPolygon : MonoBehaviour
     {
         var tempLine = Instantiate(liInterface, transform);
         tempLine.GetComponent<DrawLine>().DrawLineInit(0,
-            Width, new[]{points[0], points[points.Count - 1]});
+            _width, new[]{points[0], points[points.Count - 1]});
         lines.Add(tempLine);
         
         for (var i = 1; i < _sides; i++)
         {
             tempLine = Instantiate(liInterface, transform);
             tempLine.GetComponent<DrawLine>().DrawLineInit(i,
-                Width, new[]{points[i], points[i - 1]});
+                _width, new[]{points[i], points[i - 1]});
             lines.Add(tempLine);
         }
     }

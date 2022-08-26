@@ -7,10 +7,10 @@ public class Ball : MonoBehaviour {
 
 	public Vector3 spawnPosition;
 	
-	public float downForce = 5f;
-	public float smashForce = 1000f;
-	public float speedUp = 10f;
-	
+	public float downForce = 4f;
+	public float smashForce = 100f;
+	public float timer = 0f;
+
 	public Rigidbody2D rb;
 	public SpriteRenderer sr;
 	public Material smallBallMaterial;
@@ -56,13 +56,13 @@ public class Ball : MonoBehaviour {
 	{
 		transform.position = spawnPosition;
 		var index = Random.Range(0, Main.UsedColors.Count - 1);
-		while (Main.UsedColors[index].ColorIndex == currentColor)
+		while (index == currentColor)
 		{
 			index = Random.Range(0, Main.UsedColors.Count - 1);
 		}
 		
-		currentColor = Main.UsedColors[index].ColorIndex;
-		sr.color = Main.UsedColors[index].Value;
+		currentColor = index;
+		sr.color = Main.UsedColors[index];
 	}
 
 	private void BallSize(float newSize)
