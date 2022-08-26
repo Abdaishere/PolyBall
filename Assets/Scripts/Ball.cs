@@ -8,7 +8,7 @@ public class Ball : MonoBehaviour {
 	
 	public float downForce = 4f;
 	public float smashForce = 100f;
-	public float timer = 0f;
+	public float timer;
 
 	public Rigidbody2D rb;
 	public SpriteRenderer sr;

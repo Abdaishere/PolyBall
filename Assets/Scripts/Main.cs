@@ -12,9 +12,9 @@ public class Main : MonoBehaviour
     public static List<Color32> UsedColors;
 
     public  static int Difficulty = 7;
-    public  static float Radius = 3.0f;
-    public static float LineWidth = 0.5f;
-    public static Boolean GameStarted = false;
+    public const float Radius = 3.0f;
+    public const float LineWidth = 0.5f;
+    public Boolean gameStarted;
     
     private List<Color32> _allColors;
     
@@ -22,7 +22,7 @@ public class Main : MonoBehaviour
     private void Start ()
     {
         // Add All 7 Colors to a list
-        _allColors = new List<Color32>()
+        _allColors = new List<Color32>
         {
             new Color32(0, 128, 204, 255),
             new Color32(0, 184, 184, 255),
@@ -68,9 +68,11 @@ public class Main : MonoBehaviour
     // TODO add and delete sides in main menu
     private void Update()
     {
-        if (GameStarted || !Input.anyKey) return;
-        ball = Instantiate(ball);
-        scoreText.GetComponent<GoalAndScore>().LocalScore();
-        GameStarted = true;
+        if (!gameStarted && Input.anyKey)
+        {
+            ball = Instantiate(ball);
+            scoreText.GetComponent<GoalAndScore>().LocalScore();
+            gameStarted = true;
+        }
     }
 }
