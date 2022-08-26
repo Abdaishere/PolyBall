@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +7,12 @@ public class Score : MonoBehaviour
     public TextMeshPro textMesh;
     public int score;
     public int highScore;
+
+    private void Start()
+    {
+        textMesh.text = "";
+    }
+
     public void LocalScore()
     {
         textMesh.text = "0";
