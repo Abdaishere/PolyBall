@@ -54,7 +54,6 @@ public class Main : MonoBehaviour
         }
 
         highScoreText = Instantiate(highScoreText);
-        scoreText = Instantiate(scoreText);
         player = Instantiate(player);
     }
 
@@ -75,7 +74,7 @@ public class Main : MonoBehaviour
         if (!gameStarted && Input.anyKey)
         {
             Destroy(highScoreText);
-            _score.LocalScore();
+            scoreText = Instantiate(scoreText);   
             gameStarted = true;
             ball = Instantiate(ball);
         }

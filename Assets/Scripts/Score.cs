@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -10,26 +9,19 @@ public class Score : MonoBehaviour
 
     private void Start()
     {
-        textMesh.text = "";
-    }
-
-    public void LocalScore()
-    {
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
         textMesh.text = "0";
-        const float radius = Main.Radius - Main.LineWidth;
-        transform.localScale = new Vector3(radius, radius);
     }
-
+    
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Player"))
-        {
-            textMesh.text = (++score).ToString();
-            if (score > highScore)
-            {
-                highScore = score;
-                PlayerPrefs.SetInt("HighScore", highScore);
-            }
-        }
+        if (!col.CompareTag("Player")) return;
+        textMesh.text = (++score).ToString();
+        
+        if (score <= highScore) return;
+        highScore = score;
+        PlayerPrefs.SetInt("HighScore", highScore);
+        
+        
     }
 }

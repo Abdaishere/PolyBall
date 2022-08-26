@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class Ball : MonoBehaviour {
@@ -47,8 +48,8 @@ public class Ball : MonoBehaviour {
 		}
 
 		if (col.gameObject.GetComponent<DrawLine>().sideNum == currentColor) return;
-		Debug.Log("GAME OVER!");
-		Time.fixedDeltaTime = 0f;
+		Debug.Log($"Ball color was {currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	private void SpawnBall ()
