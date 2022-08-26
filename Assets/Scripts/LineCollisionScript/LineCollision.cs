@@ -13,16 +13,16 @@ namespace LineCollisionScript
         private PolygonCollider2D _polygonCollider2D;
 
         //The points to draw a collision shape between
-        private List<Vector2> _colliderPoints = new List<Vector2>(); 
+        private List<Vector2> _colliderPoints = new List<Vector2>();
 
-        void Start()
+        private void Start()
         {
             _drawLine = GetComponent<DrawLine>();
             _polygonCollider2D = GetComponent<PolygonCollider2D>();
         }
 
 
-        void Update()
+        private void Update()
         {
             _colliderPoints = CalculateColliderPoints();
             _polygonCollider2D.SetPath(0, _colliderPoints.ConvertAll(p => (Vector2)transform.InverseTransformPoint(p)));

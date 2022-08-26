@@ -8,6 +8,7 @@ public class Main : MonoBehaviour
     public GameObject ball;
     public GameObject player;
     public GameObject scoreText;
+    public GameObject highScoreText;
 
     public static List<Color32> UsedColors;
 
@@ -17,10 +18,12 @@ public class Main : MonoBehaviour
     public Boolean gameStarted;
     
     private List<Color32> _allColors;
-    
+    private Score _score;
+
     // Start is called before the first frame update
     private void Start ()
     {
+        _score = scoreText.GetComponent<Score>();
         // Add All 7 Colors to a list
         _allColors = new List<Color32>
         {
@@ -37,9 +40,9 @@ public class Main : MonoBehaviour
         while (_allColors.Count < Difficulty)
         {
             _allColors.Add(new Color32(
-                (byte)Random.Range(0, 255), //Red
-                (byte)Random.Range(0, 255), //Green
-                (byte)Random.Range(0, 255), //Blue
+                (byte)Random.Range(0, 256), //Red
+                (byte)Random.Range(0, 256), //Green
+                (byte)Random.Range(0, 256), //Blue
                 255 //Alpha (transparency)
             ));
         }
@@ -49,7 +52,8 @@ public class Main : MonoBehaviour
         {
             AddColor();
         }
-        
+
+        highScoreText = Instantiate(highScoreText);
         scoreText = Instantiate(scoreText);
         player = Instantiate(player);
     }
@@ -70,9 +74,10 @@ public class Main : MonoBehaviour
     {
         if (!gameStarted && Input.anyKey)
         {
-            ball = Instantiate(ball);
-            scoreText.GetComponent<GoalAndScore>().LocalScore();
+            Destroy(highScoreText);
+            _score.LocalScore();
             gameStarted = true;
+            ball = Instantiate(ball);
         }
     }
 }

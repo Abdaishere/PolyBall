@@ -1,24 +1,16 @@
 using TMPro;
 using UnityEngine;
 
-public class GoalAndScore : MonoBehaviour
+public class Score : MonoBehaviour
 {
     public TextMeshPro textMesh;
     public int score;
     public int highScore;
-    private void Start()
-    {
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-        textMesh.text = $"High Score\n {highScore.ToString()}";
-    }
-
     public void LocalScore()
     {
         textMesh.text = "0";
-        var radius = Main.Radius - Main.LineWidth;
-        var transform1 = transform;
-        transform1.localScale = new Vector3(radius, radius);
-        transform1.position = new Vector3(0, -6, 0);
+        const float radius = Main.Radius - Main.LineWidth;
+        transform.localScale = new Vector3(radius, radius);
     }
 
     private void OnTriggerEnter2D(Collider2D col)
