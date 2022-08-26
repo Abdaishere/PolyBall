@@ -1,10 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Rotator : MonoBehaviour {
-
-	public float speed = 250f;
-	
-	private void Update () {
-		transform.Rotate(0f, 0f, speed * Time.deltaTime);
+	private const int Speed = 110;
+	public bool rotate = true;
+	private void Update ()
+	{
+		if (!rotate) return;
+		if (Main.GameStarted == false)
+		{
+			PlayerPolygon.Rotation += Speed * Time.deltaTime;
+			if (PlayerPolygon.Rotation > 360)
+			{
+				PlayerPolygon.Rotation -= 360;
+			}
+		}
+		else
+		{
+			rotate = false;
+			PlayerPolygon.SetRotation();
+		}
 	}
 }

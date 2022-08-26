@@ -15,15 +15,13 @@ public class Main : MonoBehaviour
     public  static int Difficulty = 7;
     public const float Radius = 3.0f;
     public const float LineWidth = 0.5f;
-    public Boolean gameStarted;
+    public static Boolean GameStarted;
     
     private List<Color32> _allColors;
-    private Score _score;
 
     // Start is called before the first frame update
     private void Start ()
     {
-        _score = scoreText.GetComponent<Score>();
         // Add All 7 Colors to a list
         _allColors = new List<Color32>
         {
@@ -71,11 +69,11 @@ public class Main : MonoBehaviour
     // TODO add and delete sides in main menu
     private void Update()
     {
-        if (!gameStarted && Input.anyKey)
+        if (!GameStarted && Input.anyKey)
         {
             Destroy(highScoreText);
             scoreText = Instantiate(scoreText);   
-            gameStarted = true;
+            GameStarted = true;
             ball = Instantiate(ball);
         }
     }

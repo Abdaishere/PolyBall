@@ -11,9 +11,9 @@ public class PlayerPolygon : MonoBehaviour
     public List<GameObject> lines;
 
     private float _width;
-    private int _sides;
-    public float rotation;
-    public float rotationAlpha;
+    private static int _sides;
+    public static float Rotation;
+    public static float RotationAlpha;
     private const float Tau = 2 * Mathf.PI;
     private void Start()
     {
@@ -21,7 +21,6 @@ public class PlayerPolygon : MonoBehaviour
         _sides = Main.Difficulty;
         _width = Main.LineWidth;
         
-        SetRotation();
         GetPoints();
         CreateLines();
     }
@@ -32,19 +31,19 @@ public class PlayerPolygon : MonoBehaviour
         // controls 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            rotation -= rotationAlpha;
-            if (rotation < 0)
+            Rotation -= RotationAlpha;
+            if (Rotation < 0)
             {
-                rotation += 360;
+                Rotation += 360;
             }
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            rotation += rotationAlpha;
-            if (rotation > 360)
+            Rotation += RotationAlpha;
+            if (Rotation > 360)
             {
-                rotation -= 360;
+                Rotation -= 360;
             }
         }
         
@@ -78,10 +77,10 @@ public class PlayerPolygon : MonoBehaviour
         }
     }
 
-    private void SetRotation()
+    public static void SetRotation()
     {
-        rotation = _sides % 2 != 0 ? -90 : -45;
-        rotationAlpha =  360f / _sides ;
+        Rotation = _sides % 2 != 0 ? -90 : -45;
+        RotationAlpha =  360f / _sides ;
     }
     private void GetPoints()
     {
@@ -93,7 +92,7 @@ public class PlayerPolygon : MonoBehaviour
             var x = Mathf.Cos(currentRadian) * radius;
             var y = (Mathf.Sin(currentRadian) * radius);
             var newPosition = new Vector3(x, y, 0);
-            newPosition = Quaternion.Euler(0, 0, rotation) * newPosition;
+            newPosition = Quaternion.Euler(0, 0, Rotation) * newPosition;
             newPosition.y -= 6;
             points.Add(newPosition);
         }
