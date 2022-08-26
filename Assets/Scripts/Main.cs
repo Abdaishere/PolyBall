@@ -7,6 +7,7 @@ public class Main : MonoBehaviour
 {
     public GameObject ball;
     public GameObject player;
+    public GameObject scoreText;
 
     public static List<Color32> UsedColors;
 
@@ -49,7 +50,7 @@ public class Main : MonoBehaviour
             AddColor();
         }
         
-        ball = Instantiate(ball);
+        scoreText = Instantiate(scoreText);
         player = Instantiate(player);
     }
 
@@ -65,5 +66,11 @@ public class Main : MonoBehaviour
         UsedColors.RemoveAt(UsedColors.Count - 1);
     }
     // TODO add and delete sides in main menu
-    
+    private void Update()
+    {
+        if (GameStarted || !Input.anyKey) return;
+        ball = Instantiate(ball);
+        scoreText.GetComponent<GoalAndScore>().LocalScore();
+        GameStarted = true;
+    }
 }
