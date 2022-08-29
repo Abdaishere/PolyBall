@@ -9,7 +9,7 @@ public class Ball : MonoBehaviour {
 	public Vector3 spawnPosition;
 	
 	private int _downForce = 4;
-	private int _smashForce = 60;
+	private int _smashForce = 50;
 	private float _timer;
 	private int _speedUpTime = 5;
 	private Rigidbody2D _rb;
