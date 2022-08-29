@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -57,10 +58,18 @@ public class Ball : MonoBehaviour {
 
 		if (col.gameObject.GetComponent<DrawLine>().sideNum == _currentColor) return;
 		Debug.Log($"Ball color was {_currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
+		StartCoroutine(GameOver());
+	}
+	private IEnumerator GameOver()
+	{
+		_downForce = 0;
+		Time.timeScale = 0.1f;
+		yield return new WaitForSeconds(0.1f);
+		Time.timeScale = 1;
+		
 		Main.GameStarted = false;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
-
 	private void SpawnBall ()
 	{
 		transform.position = spawnPosition;

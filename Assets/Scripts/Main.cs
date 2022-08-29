@@ -10,8 +10,10 @@ public class Main : MonoBehaviour
     public GameObject highScoreText;
 
     public static List<Color32> UsedColors;
-
-    public static int Difficulty = 7;
+    
+    [Range(3, 64)]
+    public static int Difficulty = 3;
+    [Range(3f, 4.6f)]
     public const float Radius = 3.0f;
     public const float LineWidth = 0.5f;
     public static bool GameStarted;

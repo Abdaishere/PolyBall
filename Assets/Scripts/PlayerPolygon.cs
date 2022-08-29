@@ -4,11 +4,12 @@ using UnityEngine;
 public class PlayerPolygon : MonoBehaviour
 {
 
-    private GameObject _liInterface;
+    public GameObject liInterface;
 
     private List<Vector3> _points;
     private List<GameObject> _lines;
-
+    private List<DrawLine> _linesUpdaters;
+    
     private float _width;
     private static int _sides;
     private float _radius;
@@ -22,10 +23,11 @@ public class PlayerPolygon : MonoBehaviour
         _radius = Main.Radius;
         _sides = Main.Difficulty;
         _width = Main.LineWidth;
-        _liInterface = GameObject.Find("Assets/Prefabs/DrawLine.prefab");
-        
+        _linesUpdaters = new List<DrawLine>();
+        _lines = new List<GameObject>();
+
         GetPoints();
-        CreateLines();
+        InitLines();
     }
 
     // Update is called once per frame
@@ -53,34 +55,43 @@ public class PlayerPolygon : MonoBehaviour
         UpdateLines();
     }
 
-    private void CreateLines()
+    private void InitLines()
     {
-        _lines = new List<GameObject>();
-        var tempLine = Instantiate(_liInterface, transform);
-        tempLine.GetComponent<DrawLine>().DrawLineInit(0,
-            _width, new[]{_points[0], _points[_points.Count - 1]});
-        _lines.Add(tempLine);
+        AddLine(0, _points.Count - 1);
         
         for (var i = 1; i < _sides; i++)
         {
-            tempLine = Instantiate(_liInterface, transform);
-            tempLine.GetComponent<DrawLine>().DrawLineInit(i,
-                _width, new[]{_points[i], _points[i - 1]});
-            _lines.Add(tempLine);
+            AddLine(i, i -1);
         }
+        
     }
-    // ReSharper disable Unity.PerformanceAnalysis
+    
     private void UpdateLines()
     {
         _points.Clear();
         GetPoints();
-        _lines[0].GetComponent<DrawLine>().UpdatePoints(new[]{_points[0], _points[_points.Count - 1]});
+        _linesUpdaters[0].UpdatePoints(new[]{_points[0], _points[_points.Count - 1]});
         for (var i = 1; i < _sides; i++)
         {
-            _lines[i].GetComponent<DrawLine>().UpdatePoints(new[]{_points[i], _points[i - 1]});
+            _linesUpdaters[i].UpdatePoints(new[]{_points[i], _points[i - 1]});
         }
     }
 
+    public void AddLine(int start, int end)
+    {
+        var tempLine = Instantiate(liInterface, transform);
+        tempLine.GetComponent<DrawLine>().DrawLineInit(start,
+            _width, new[]{_points[start], _points[end]});
+        _linesUpdaters.Add(tempLine.GetComponent<DrawLine>());
+        _lines.Add(tempLine);
+        
+    }
+    public void DestroyLine(int num)
+    {
+        Destroy(_lines[num]);
+        _linesUpdaters.RemoveAt(num);
+    }
+    
     public static void SetRotation()
     {
         Rotation = _sides % 2 != 0 ? -90 : -45;
@@ -88,7 +99,7 @@ public class PlayerPolygon : MonoBehaviour
     }
     private void GetPoints()
     {
-        _points = new List<Vector3>(_sides);
+        _points = new List<Vector3>();
 
         for (var currentPoint = 0; currentPoint < _sides; currentPoint++)
         {
