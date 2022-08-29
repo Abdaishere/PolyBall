@@ -49,7 +49,8 @@ public class Ball : MonoBehaviour {
 
 		if (col.gameObject.GetComponent<DrawLine>().sideNum == currentColor) return;
 		Debug.Log($"Ball color was {currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		Main.DestroyAll();
+		SceneManager.LoadScene(0);
 	}
 
 	private void SpawnBall ()

@@ -5,15 +5,16 @@ using Random = UnityEngine.Random;
 
 public class Main : MonoBehaviour
 {
-    public GameObject ball;
-    public GameObject player;
-    public GameObject scoreText;
-    public GameObject highScoreText;
+    private static GameObject _ball;
+    private static GameObject _player;
+    private static GameObject _scoreText;
+    private static GameObject _highScoreText;
 
     public static List<Color32> UsedColors;
 
-    public  static int Difficulty = 7;
-    public const float Radius = 3.0f;
+    public  static int Difficulty = 5;
+    // R min 3 R max 4.6
+    public const float Radius = 3f;
     public const float LineWidth = 0.5f;
     public static Boolean GameStarted;
     
@@ -22,6 +23,12 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     private void Start ()
     {
+        _ball = GameObject.Find("Ball");
+        _player = GameObject.Find("PlayerPolygon");
+        _scoreText = GameObject.Find("Goal and Score");
+        _highScoreText = GameObject.Find("HighScore");
+        
+        
         // Add All 7 Colors to a list
         _allColors = new List<Color32>
         {
@@ -50,9 +57,9 @@ public class Main : MonoBehaviour
         {
             AddColor();
         }
-
-        highScoreText = Instantiate(highScoreText);
-        player = Instantiate(player);
+        GameStarted = false;
+        _highScoreText = Instantiate(_highScoreText);
+        _player = Instantiate(_player);
     }
 
     private void AddColor()
@@ -71,10 +78,18 @@ public class Main : MonoBehaviour
     {
         if (!GameStarted && Input.anyKey)
         {
-            Destroy(highScoreText);
-            scoreText = Instantiate(scoreText);   
+            Destroy(_highScoreText);
+            _scoreText = Instantiate(_scoreText);   
             GameStarted = true;
-            ball = Instantiate(ball);
+            _ball = Instantiate(_ball);
         }
+    }
+
+    public static void DestroyAll()
+    {
+        GameStarted = false;
+        Destroy(_scoreText);
+        Destroy(_ball);
+        Destroy(_player);
     }
 }

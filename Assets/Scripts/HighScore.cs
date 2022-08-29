@@ -10,7 +10,7 @@ public class HighScore : MonoBehaviour
     private float _timer;
     private void Start()
     {
-        textMesh.text = $"High Score\n {PlayerPrefs.GetInt("HighScore", 0).ToString()}";
+        textMesh.text = $"High Score\n {PlayerPrefs.GetInt("HighScore", 0).ToString()} \n\n Start";
     }
 
     // private void Update()

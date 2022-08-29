@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class Rotator : MonoBehaviour {
-	private const int Speed = 110;
+	private const int Speed = 100;
 	public bool rotate = true;
 	private void Update ()
 	{

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,17 +11,21 @@ public class PlayerPolygon : MonoBehaviour
     public List<Vector3> points;
     public List<GameObject> lines;
 
+    private const float RotationSpeed = 10;
     private float _width;
     private static int _sides;
     public static float Rotation;
-    public static float RotationAlpha;
+    private static float _rTarget = -1;
+    private static float _rotationAlpha;
+    private Rotator _rotator;
     private const float Tau = 2 * Mathf.PI;
     private void Start()
     {
+        _rotator = GetComponent<Rotator>();
         radius = Main.Radius;
         _sides = Main.Difficulty;
         _width = Main.LineWidth;
-        
+
         GetPoints();
         CreateLines();
     }
@@ -28,22 +33,30 @@ public class PlayerPolygon : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // controls 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (RotationAnimation())
         {
-            Rotation -= RotationAlpha;
-            if (Rotation < 0)
+            Rotation = -_rTarget;
+            _rotator.rotate = false;
+        }
+        
+        // controls 
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetMouseButtonDown(1))
+        {
+            Rotation = _rTarget;
+            _rTarget -= _rotationAlpha;
+            if (_rTarget < 0)
             {
-                Rotation += 360;
+                _rTarget += 360;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetMouseButtonDown(0))
         {
-            Rotation += RotationAlpha;
-            if (Rotation > 360)
+            Rotation = _rTarget;
+            _rTarget += _rotationAlpha;
+            if (_rTarget > 360)
             {
-                Rotation -= 360;
+                _rTarget -= 360;
             }
         }
         
@@ -76,16 +89,23 @@ public class PlayerPolygon : MonoBehaviour
             lines[i].GetComponent<DrawLine>().UpdatePoints(new[]{points[i], points[i - 1]});
         }
     }
+    // return Done ?
+    private static Boolean RotationAnimation()
+    {
+        if (Rotation > _rTarget) return true;
+        Rotation += RotationSpeed;
+        return false;
+    }
 
     public static void SetRotation()
     {
-        Rotation = _sides % 2 != 0 ? -90 : -45;
-        RotationAlpha =  360f / _sides ;
+        _rTarget = _sides % 2 != 0 ? -90 : -45;
+        _rotationAlpha =  360f / _sides ;
     }
     private void GetPoints()
     {
         points = new List<Vector3>(_sides);
-
+        const int newPositionY = 5;
         for (var currentPoint = 0; currentPoint < _sides; currentPoint++)
         {
             var currentRadian = ((float)currentPoint / _sides) * Tau;
@@ -93,7 +113,7 @@ public class PlayerPolygon : MonoBehaviour
             var y = (Mathf.Sin(currentRadian) * radius);
             var newPosition = new Vector3(x, y, 0);
             newPosition = Quaternion.Euler(0, 0, Rotation) * newPosition;
-            newPosition.y -= 6;
+            newPosition.y -= newPositionY;
             points.Add(newPosition);
         }
     }
