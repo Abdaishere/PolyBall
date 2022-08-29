@@ -7,36 +7,44 @@ public class Ball : MonoBehaviour {
 
 	public Vector3 spawnPosition;
 	
-	public float downForce = 6f;
-	public float smashForce = 100f;
-	public float timer;
-
-	public Rigidbody2D rb;
-	public SpriteRenderer sr;
-	public Material smallBallMaterial;
-	public int currentColor;
+	private int _downForce = 4;
+	private int _smashForce = 60;
+	private float _timer;
+	private int _speedUpTime = 5;
+	private Rigidbody2D _rb;
+	private SpriteRenderer _sr;
+	private int _currentColor;
 	private void Start ()
 	{
+		_rb = GetComponent<Rigidbody2D>();
+		_sr = GetComponent<SpriteRenderer>();
+		
 		SpawnBall();
 		
 		var sides = Main.Difficulty;
 		if (sides <= 12) return;
 		if (sides <= 64)
-			BallSize(1/64f);
+			BallSize(2f/sides);
 		else throw new UnauthorizedAccessException();
 
 	}
 	
 	private void Update ()
 	{
-		// TODO make smash button
-		if (Input.GetButtonDown("Jump"))
+		_timer += Time.deltaTime;
+		if (_timer > _speedUpTime)
 		{
-			rb.velocity = Vector2.down * smashForce;
+			_speedUpTime *= 2;
+			_downForce += 1;
+			_timer = 0;
 		}
 		
-		rb.velocity = Vector2.down * downForce;
-		// TODO make speed up feature to make the game tougher through time 
+		if (_downForce < _smashForce && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2)))
+		{
+			(_downForce, _smashForce) = (_smashForce, _downForce);
+		}
+		
+		_rb.velocity = Vector2.down * _downForce;
 	}
 
 	private void OnTriggerEnter2D (Collider2D col)
@@ -47,8 +55,8 @@ public class Ball : MonoBehaviour {
 			return;
 		}
 
-		if (col.gameObject.GetComponent<DrawLine>().sideNum == currentColor) return;
-		Debug.Log($"Ball color was {currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
+		if (col.gameObject.GetComponent<DrawLine>().sideNum == _currentColor) return;
+		Debug.Log($"Ball color was {_currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
 		Main.GameStarted = false;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
@@ -57,20 +65,19 @@ public class Ball : MonoBehaviour {
 	{
 		transform.position = spawnPosition;
 		var index = Random.Range(0, Main.UsedColors.Count);
-		while (index == currentColor)
+		while (index == _currentColor)
 		{
 			index = Random.Range(0, Main.UsedColors.Count);
 		}
 		
-		currentColor = index;
-		sr.color = Main.UsedColors[index];
+		_currentColor = index;
+		_sr.color = Main.UsedColors[index];
+		if (_downForce > _smashForce)
+			(_downForce, _smashForce) = (_smashForce, _downForce);
 	}
 
 	private void BallSize(float newSize)
 	{
-		if (newSize > 0.1f)
-			transform.localScale = new Vector3(newSize, newSize);
-		else
-			sr.material = smallBallMaterial;
+		transform.localScale = new Vector3(newSize, newSize);
 	}
 }

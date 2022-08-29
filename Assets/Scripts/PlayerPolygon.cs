@@ -3,23 +3,26 @@ using UnityEngine;
 
 public class PlayerPolygon : MonoBehaviour
 {
-    public float radius;
 
-    public GameObject liInterface;
+    private GameObject _liInterface;
 
-    public List<Vector3> points;
-    public List<GameObject> lines;
+    private List<Vector3> _points;
+    private List<GameObject> _lines;
 
     private float _width;
     private static int _sides;
+    private float _radius;
+    
     public static float Rotation;
     private static float _rotationAlpha;
     private const float Tau = 2 * Mathf.PI;
+    
     private void Start()
     {
-        radius = Main.Radius;
+        _radius = Main.Radius;
         _sides = Main.Difficulty;
         _width = Main.LineWidth;
+        _liInterface = GameObject.Find("Assets/Prefabs/DrawLine.prefab");
         
         GetPoints();
         CreateLines();
@@ -52,28 +55,29 @@ public class PlayerPolygon : MonoBehaviour
 
     private void CreateLines()
     {
-        var tempLine = Instantiate(liInterface, transform);
+        _lines = new List<GameObject>();
+        var tempLine = Instantiate(_liInterface, transform);
         tempLine.GetComponent<DrawLine>().DrawLineInit(0,
-            _width, new[]{points[0], points[points.Count - 1]});
-        lines.Add(tempLine);
+            _width, new[]{_points[0], _points[_points.Count - 1]});
+        _lines.Add(tempLine);
         
         for (var i = 1; i < _sides; i++)
         {
-            tempLine = Instantiate(liInterface, transform);
+            tempLine = Instantiate(_liInterface, transform);
             tempLine.GetComponent<DrawLine>().DrawLineInit(i,
-                _width, new[]{points[i], points[i - 1]});
-            lines.Add(tempLine);
+                _width, new[]{_points[i], _points[i - 1]});
+            _lines.Add(tempLine);
         }
     }
     // ReSharper disable Unity.PerformanceAnalysis
     private void UpdateLines()
     {
-        points.Clear();
+        _points.Clear();
         GetPoints();
-        lines[0].GetComponent<DrawLine>().UpdatePoints(new[]{points[0], points[points.Count - 1]});
+        _lines[0].GetComponent<DrawLine>().UpdatePoints(new[]{_points[0], _points[_points.Count - 1]});
         for (var i = 1; i < _sides; i++)
         {
-            lines[i].GetComponent<DrawLine>().UpdatePoints(new[]{points[i], points[i - 1]});
+            _lines[i].GetComponent<DrawLine>().UpdatePoints(new[]{_points[i], _points[i - 1]});
         }
     }
 
@@ -84,17 +88,20 @@ public class PlayerPolygon : MonoBehaviour
     }
     private void GetPoints()
     {
-        points = new List<Vector3>(_sides);
+        _points = new List<Vector3>(_sides);
 
         for (var currentPoint = 0; currentPoint < _sides; currentPoint++)
         {
-            var currentRadian = ((float)currentPoint / _sides) * Tau;
-            var x = Mathf.Cos(currentRadian) * radius;
-            var y = (Mathf.Sin(currentRadian) * radius);
+            var currentRadian = (float)currentPoint / _sides * Tau;
+            var x = Mathf.Cos(currentRadian) * _radius;
+            var y = Mathf.Sin(currentRadian) * _radius;
+            
             var newPosition = new Vector3(x, y, 0);
             newPosition = Quaternion.Euler(0, 0, Rotation) * newPosition;
             newPosition.y -= 5;
-            points.Add(newPosition);
+            
+            _points.Add(newPosition);
         }
+        
     }
 }

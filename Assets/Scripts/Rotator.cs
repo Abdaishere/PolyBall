@@ -1,12 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Rotator : MonoBehaviour {
-	private const int Speed = 100;
-	public bool rotate = true;
+	private Rotator _rotator;
+	private const int Speed = 110;
+
+	private void Start()
+	{
+		_rotator = GetComponent<Rotator>();
+	}
+
 	private void Update ()
 	{
-		if (!rotate) return;
 		if (Main.GameStarted == false)
 		{
 			PlayerPolygon.Rotation += Speed * Time.deltaTime;
@@ -17,8 +21,8 @@ public class Rotator : MonoBehaviour {
 		}
 		else
 		{
-			rotate = false;
 			PlayerPolygon.SetRotation();
+			Destroy(_rotator);
 		}
 	}
 }

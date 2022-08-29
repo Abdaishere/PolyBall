@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,10 +11,10 @@ public class Main : MonoBehaviour
 
     public static List<Color32> UsedColors;
 
-    public  static int Difficulty = 7;
+    public static int Difficulty = 7;
     public const float Radius = 3.0f;
     public const float LineWidth = 0.5f;
-    public static Boolean GameStarted;
+    public static bool GameStarted;
     
     private List<Color32> _allColors;
 

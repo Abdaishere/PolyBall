@@ -8,7 +8,6 @@ public class DrawLine : MonoBehaviour
     public float width; 
     public void DrawLineInit(int num,float w, Vector3[] se)
     {
-        
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.startColor = Main.UsedColors[num];
         _lineRenderer.endColor = Main.UsedColors[num];
