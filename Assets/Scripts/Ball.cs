@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour {
 
 	public Vector3 spawnPosition;
 	
-	public float downForce = 4f;
+	public float downForce = 6f;
 	public float smashForce = 100f;
 	public float timer;
 
@@ -49,16 +49,17 @@ public class Ball : MonoBehaviour {
 
 		if (col.gameObject.GetComponent<DrawLine>().sideNum == currentColor) return;
 		Debug.Log($"Ball color was {currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
+		Main.GameStarted = false;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	private void SpawnBall ()
 	{
 		transform.position = spawnPosition;
-		var index = Random.Range(0, Main.UsedColors.Count - 1);
+		var index = Random.Range(0, Main.UsedColors.Count);
 		while (index == currentColor)
 		{
-			index = Random.Range(0, Main.UsedColors.Count - 1);
+			index = Random.Range(0, Main.UsedColors.Count);
 		}
 		
 		currentColor = index;

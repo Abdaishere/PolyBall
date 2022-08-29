@@ -12,7 +12,7 @@ public class Main : MonoBehaviour
 
     public static List<Color32> UsedColors;
 
-    public  static int Difficulty = 7;
+    public  static int Difficulty = 3;
     public const float Radius = 3.0f;
     public const float LineWidth = 0.5f;
     public static Boolean GameStarted;

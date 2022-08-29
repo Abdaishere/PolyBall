@@ -13,7 +13,7 @@ public class PlayerPolygon : MonoBehaviour
     private float _width;
     private static int _sides;
     public static float Rotation;
-    public static float RotationAlpha;
+    private static float _rotationAlpha;
     private const float Tau = 2 * Mathf.PI;
     private void Start()
     {
@@ -29,18 +29,18 @@ public class PlayerPolygon : MonoBehaviour
     private void Update()
     {
         // controls 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetMouseButtonDown(1))
         {
-            Rotation -= RotationAlpha;
+            Rotation -= _rotationAlpha;
             if (Rotation < 0)
             {
                 Rotation += 360;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetMouseButtonDown(0))
         {
-            Rotation += RotationAlpha;
+            Rotation += _rotationAlpha;
             if (Rotation > 360)
             {
                 Rotation -= 360;
@@ -80,7 +80,7 @@ public class PlayerPolygon : MonoBehaviour
     public static void SetRotation()
     {
         Rotation = _sides % 2 != 0 ? -90 : -45;
-        RotationAlpha =  360f / _sides ;
+        _rotationAlpha =  360f / _sides ;
     }
     private void GetPoints()
     {
@@ -93,7 +93,7 @@ public class PlayerPolygon : MonoBehaviour
             var y = (Mathf.Sin(currentRadian) * radius);
             var newPosition = new Vector3(x, y, 0);
             newPosition = Quaternion.Euler(0, 0, Rotation) * newPosition;
-            newPosition.y -= 6;
+            newPosition.y -= 5;
             points.Add(newPosition);
         }
     }
