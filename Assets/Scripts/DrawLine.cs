@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class DrawLine : MonoBehaviour
@@ -26,6 +27,11 @@ public class DrawLine : MonoBehaviour
     {
         if (sideNum != -1)
             _lineRenderer.SetPositions(points);
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(_lineRenderer);
     }
 
     public void UpdatePoints(Vector3[] se)

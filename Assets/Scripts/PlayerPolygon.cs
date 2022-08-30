@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -86,8 +87,18 @@ public class PlayerPolygon : MonoBehaviour
         _lines.Add(tempLine);
         
     }
-    public void DestroyLine(int num)
+
+    private void OnDestroy()
     {
+        foreach (var t in _lines)
+            Destroy(t);
+        _linesUpdaters.Clear();
+        _sides = 0;
+    }
+
+    private void DestroyLine(int num)
+    {
+        _sides--;
         Destroy(_lines[num]);
         _linesUpdaters.RemoveAt(num);
     }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Main : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class Main : MonoBehaviour
     public static List<Color32> UsedColors;
     
     [Range(3, 64)]
-    public static int Difficulty = 3;
+    public static int Difficulty;
     [Range(3f, 4.6f)]
     public const float Radius = 3.0f;
     public const float LineWidth = 0.5f;
@@ -23,6 +22,7 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     private void Start ()
     {
+        Difficulty = PlayerPrefs.GetInt("Difficulty", 3);
         // Add All 7 Colors to a list
         _allColors = new List<Color32>
         {
@@ -35,16 +35,6 @@ public class Main : MonoBehaviour
              new Color32(189, 154, 0, 255)
         };
         
-        // Dynamic Colors
-        while (_allColors.Count < Difficulty)
-        {
-            _allColors.Add(new Color32(
-                (byte)Random.Range(0, 256), //Red
-                (byte)Random.Range(0, 256), //Green
-                (byte)Random.Range(0, 256), //Blue
-                255 //Alpha (transparency)
-            ));
-        }
         // Add the used Colors
         UsedColors = new List<Color32>();
         for (var i = 0; i < Difficulty; i++)
@@ -58,24 +48,60 @@ public class Main : MonoBehaviour
 
     private void AddColor()
     {
-        var index = Random.Range(0, _allColors.Count);
-        UsedColors.Add( _allColors[index]);
-        _allColors.RemoveAt(index);
+        if (_allColors.Count == 0)
+        {
+            // Dynamic Colors
+            UsedColors.Add(new Color32(
+                    (byte)Random.Range(0, 256), //Red
+                    (byte)Random.Range(0, 256), //Green
+                    (byte)Random.Range(0, 256), //Blue
+                    255 //Alpha (transparency)
+                ));
+        }
+        else
+        {
+            var index = Random.Range(0, _allColors.Count);
+            UsedColors.Add(_allColors[index]);
+            _allColors.RemoveAt(index);
+        }
+    }
+
+    private static void RemoveColorAt(int num)
+    {
+        UsedColors.RemoveAt(num);
     }
     
-    public void RemoveColor()
-    {
-        UsedColors.RemoveAt(UsedColors.Count - 1);
-    }
-    // TODO add and delete sides in main menu
     private void Update()
     {
-        if (!GameStarted && Input.anyKey)
-        {
-            Destroy(highScoreText);
-            scoreText = Instantiate(scoreText);   
-            GameStarted = true;
-            ball = Instantiate(ball);
-        }
+        if (GameStarted) return;
+        // if (Input.GetKeyDown(KeyCode.RightArrow))
+        // {
+        //     if (Difficulty == 64) return;
+        //     Difficulty++;
+        //     AddColor();
+        //     
+        //     Destroy(player);
+        //     player = Instantiate(player);
+        //     
+        //     return;
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.LeftArrow))
+        // {
+        //     if (Difficulty == 3) return;
+        //     Difficulty--;
+        //     RemoveColorAt(UsedColors.Count - 1);
+        //     
+        //     Destroy(player);
+        //     player = Instantiate(player);
+        //     
+        //     return;
+        // }
+
+        if (!Input.GetKeyDown(KeyCode.Space)) return;
+        Destroy(highScoreText);
+        scoreText = Instantiate(scoreText);   
+        GameStarted = true;
+        ball = Instantiate(ball);
     }
 }

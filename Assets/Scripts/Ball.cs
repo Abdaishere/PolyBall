@@ -9,7 +9,7 @@ public class Ball : MonoBehaviour {
 	public Vector3 spawnPosition;
 	
 	private int _downForce = 4;
-	private int _smashForce = 50;
+	private const int SmashForce = 25;
 	private float _timer;
 	private int _speedUpTime = 5;
 	private Rigidbody2D _rb;
@@ -32,20 +32,21 @@ public class Ball : MonoBehaviour {
 	
 	private void Update ()
 	{
+		if (!Main.GameStarted) return;
+		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2))
+		{
+			_rb.velocity = Vector2.down * SmashForce;
+			return;
+		}
+		
 		_timer += Time.deltaTime;
-		if (_timer > _speedUpTime)
+		if (_timer > _speedUpTime && _downForce <= 15)
 		{
 			_speedUpTime *= 2;
 			_downForce += 1;
 			_timer = 0;
+			_rb.velocity += Vector2.down * 1;
 		}
-		
-		if (_downForce < _smashForce && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2)))
-		{
-			(_downForce, _smashForce) = (_smashForce, _downForce);
-		}
-		
-		_rb.velocity = Vector2.down * _downForce;
 	}
 
 	private void OnTriggerEnter2D (Collider2D col)
@@ -57,12 +58,13 @@ public class Ball : MonoBehaviour {
 		}
 
 		if (col.gameObject.GetComponent<DrawLine>().sideNum == _currentColor) return;
+		Main.GameStarted = false;
+		_rb.velocity = Vector2.down * 1;
 		Debug.Log($"Ball color was {_currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
 		StartCoroutine(GameOver());
 	}
 	private IEnumerator GameOver()
 	{
-		_downForce = 0;
 		Time.timeScale = 0.1f;
 		yield return new WaitForSeconds(0.1f);
 		Time.timeScale = 1;
@@ -70,19 +72,19 @@ public class Ball : MonoBehaviour {
 		Main.GameStarted = false;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
+	
 	private void SpawnBall ()
 	{
+		_rb.velocity = Vector2.down * _downForce;
 		transform.position = spawnPosition;
+		
 		var index = Random.Range(0, Main.UsedColors.Count);
 		while (index == _currentColor)
 		{
 			index = Random.Range(0, Main.UsedColors.Count);
 		}
-		
 		_currentColor = index;
 		_sr.color = Main.UsedColors[index];
-		if (_downForce > _smashForce)
-			(_downForce, _smashForce) = (_smashForce, _downForce);
 	}
 
 	private void BallSize(float newSize)
