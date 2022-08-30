@@ -24,6 +24,7 @@ namespace LineCollisionScript
 
         private void Update()
         {
+            if(_drawLine.points.Length == 0) return;
             _colliderPoints = CalculateColliderPoints();
             _polygonCollider2D.SetPath(0, _colliderPoints.ConvertAll(p => (Vector2)transform.InverseTransformPoint(p)));
         }

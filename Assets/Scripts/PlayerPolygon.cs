@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,15 +6,16 @@ public class PlayerPolygon : MonoBehaviour
 
     public GameObject liInterface;
 
-    private List<Vector3> _points;
-    private List<GameObject> _lines;
-    private List<DrawLine> _linesUpdaters;
+    public List<Vector3> points;
+    public List<GameObject> lines;
+    public List<DrawLine> linesUpdaters;
     
     private float _width;
     private static int _sides;
     private float _radius;
     
     public static float Rotation;
+    public static int LineBuffer;
     private static float _rotationAlpha;
     private const float Tau = 2 * Mathf.PI;
     
@@ -24,9 +24,10 @@ public class PlayerPolygon : MonoBehaviour
         _radius = Main.Radius;
         _sides = Main.Difficulty;
         _width = Main.LineWidth;
-        _linesUpdaters = new List<DrawLine>();
-        _lines = new List<GameObject>();
-
+        linesUpdaters = new List<DrawLine>();
+        lines = new List<GameObject>();
+        LineBuffer = 0;
+        
         GetPoints();
         InitLines();
     }
@@ -34,31 +35,55 @@ public class PlayerPolygon : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // controls 
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetMouseButtonDown(1))
+        if (Main.GameStarted)
         {
-            Rotation -= _rotationAlpha;
-            if (Rotation < 0)
+            // controls 
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetMouseButtonDown(1))
             {
-                Rotation += 360;
+                Rotation -= _rotationAlpha;
+                if (Rotation < 0)
+                {
+                    Rotation += 360;
+                }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetMouseButtonDown(0))
-        {
-            Rotation += _rotationAlpha;
-            if (Rotation > 360)
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetMouseButtonDown(0))
             {
-                Rotation -= 360;
+                Rotation += _rotationAlpha;
+                if (Rotation > 360)
+                {
+                    Rotation -= 360;
+                }
             }
         }
-        
+        else
+        {
+            while (LineBuffer != 0)
+            {
+                Debug.Log("update buffer");
+                if (LineBuffer > 0)
+                {
+                    _sides++;
+                    GetPoints();
+                    AddLine(_sides - 1, _sides - 2);
+                    LineBuffer--;
+                }
+                else
+                {
+                    _sides--;
+                    linesUpdaters.RemoveAt(linesUpdaters.Count - 1);
+                    Destroy(lines[lines.Count - 1]);
+                    lines.RemoveAt(lines.Count - 1);
+                    LineBuffer++;
+                }
+            }
+        }
         UpdateLines();
     }
 
     private void InitLines()
     {
-        AddLine(0, _points.Count - 1);
+        AddLine(0, points.Count - 1);
         
         for (var i = 1; i < _sides; i++)
         {
@@ -69,40 +94,25 @@ public class PlayerPolygon : MonoBehaviour
     
     private void UpdateLines()
     {
-        _points.Clear();
+        points.Clear();
         GetPoints();
-        _linesUpdaters[0].UpdatePoints(new[]{_points[0], _points[_points.Count - 1]});
+        linesUpdaters[0].UpdatePoints(new[]{points[0], points[points.Count - 1]});
         for (var i = 1; i < _sides; i++)
         {
-            _linesUpdaters[i].UpdatePoints(new[]{_points[i], _points[i - 1]});
+            linesUpdaters[i].UpdatePoints(new[]{points[i], points[i - 1]});
         }
     }
 
-    public void AddLine(int start, int end)
+    // ReSharper disable Unity.PerformanceAnalysis
+    private void AddLine(int start, int end)
     {
         var tempLine = Instantiate(liInterface, transform);
         tempLine.GetComponent<DrawLine>().DrawLineInit(start,
-            _width, new[]{_points[start], _points[end]});
-        _linesUpdaters.Add(tempLine.GetComponent<DrawLine>());
-        _lines.Add(tempLine);
+            _width, new[]{points[start], points[end]});
+        linesUpdaters.Add(tempLine.GetComponent<DrawLine>());
+        lines.Add(tempLine);
         
     }
-
-    private void OnDestroy()
-    {
-        foreach (var t in _lines)
-            Destroy(t);
-        _linesUpdaters.Clear();
-        _sides = 0;
-    }
-
-    private void DestroyLine(int num)
-    {
-        _sides--;
-        Destroy(_lines[num]);
-        _linesUpdaters.RemoveAt(num);
-    }
-    
     public static void SetRotation()
     {
         Rotation = _sides % 2 != 0 ? -90 : -45;
@@ -110,7 +120,7 @@ public class PlayerPolygon : MonoBehaviour
     }
     private void GetPoints()
     {
-        _points = new List<Vector3>();
+        points = new List<Vector3>();
 
         for (var currentPoint = 0; currentPoint < _sides; currentPoint++)
         {
@@ -122,7 +132,7 @@ public class PlayerPolygon : MonoBehaviour
             newPosition = Quaternion.Euler(0, 0, Rotation) * newPosition;
             newPosition.y -= 5;
             
-            _points.Add(newPosition);
+            points.Add(newPosition);
         }
         
     }

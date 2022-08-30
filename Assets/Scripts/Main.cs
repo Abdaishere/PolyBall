@@ -18,11 +18,15 @@ public class Main : MonoBehaviour
     public static bool GameStarted;
     
     private List<Color32> _allColors;
+    private PlayerPolygon _playerPolygon;
 
     // Start is called before the first frame update
     private void Start ()
     {
-        Difficulty = PlayerPrefs.GetInt("Difficulty", 3);
+        _playerPolygon = player.GetComponent<PlayerPolygon>();
+        
+        Difficulty = PlayerPrefs.GetInt("Difficulty", 5);
+        GameStarted = false;
         // Add All 7 Colors to a list
         _allColors = new List<Color32>
         {
@@ -66,37 +70,31 @@ public class Main : MonoBehaviour
         }
     }
 
-    private static void RemoveColorAt(int num)
+    private static void RemoveLastColor()
     {
-        UsedColors.RemoveAt(num);
+        UsedColors.RemoveAt(UsedColors.Count - 1);
     }
     
     private void Update()
     {
         if (GameStarted) return;
-        // if (Input.GetKeyDown(KeyCode.RightArrow))
-        // {
-        //     if (Difficulty == 64) return;
-        //     Difficulty++;
-        //     AddColor();
-        //     
-        //     Destroy(player);
-        //     player = Instantiate(player);
-        //     
-        //     return;
-        // }
-        //
-        // if (Input.GetKeyDown(KeyCode.LeftArrow))
-        // {
-        //     if (Difficulty == 3) return;
-        //     Difficulty--;
-        //     RemoveColorAt(UsedColors.Count - 1);
-        //     
-        //     Destroy(player);
-        //     player = Instantiate(player);
-        //     
-        //     return;
-        // }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (Difficulty >= 64) return;
+            Difficulty++;
+            AddColor();
+            ++PlayerPolygon.LineBuffer;
+            return;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (Difficulty <= 3) return;
+            Difficulty--;
+            --PlayerPolygon.LineBuffer;
+            RemoveLastColor();
+            return;
+        }
 
         if (!Input.GetKeyDown(KeyCode.Space)) return;
         Destroy(highScoreText);
