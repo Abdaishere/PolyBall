@@ -18,13 +18,9 @@ public class Main : MonoBehaviour
     public static bool GameStarted;
     
     private List<Color32> _allColors;
-    private PlayerPolygon _playerPolygon;
-
     // Start is called before the first frame update
     private void Start ()
     {
-        _playerPolygon = player.GetComponent<PlayerPolygon>();
-        
         Difficulty = PlayerPrefs.GetInt("Difficulty", 5);
         GameStarted = false;
         // Add All 7 Colors to a list
@@ -84,6 +80,7 @@ public class Main : MonoBehaviour
             Difficulty++;
             AddColor();
             ++PlayerPolygon.LineBuffer;
+            PlayerPrefs.SetInt("Difficulty", Difficulty);
             return;
         }
         
@@ -93,6 +90,7 @@ public class Main : MonoBehaviour
             Difficulty--;
             --PlayerPolygon.LineBuffer;
             RemoveLastColor();
+            PlayerPrefs.SetInt("Difficulty", Difficulty);
             return;
         }
 
