@@ -12,7 +12,7 @@ public class PlayerPolygon : MonoBehaviour
     
     private float _width;
     private static int _sides;
-    private float _radius;
+    private static float _radius;
     
     public static float Rotation;
     public static int LineBuffer;
@@ -38,7 +38,7 @@ public class PlayerPolygon : MonoBehaviour
         if (Main.GameStarted)
         {
             // controls 
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetMouseButtonDown(1))
             {
                 Rotation -= _rotationAlpha;
                 if (Rotation < 0)
@@ -47,7 +47,7 @@ public class PlayerPolygon : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetMouseButtonDown(0))
             {
                 Rotation += _rotationAlpha;
                 if (Rotation > 360)
@@ -60,7 +60,6 @@ public class PlayerPolygon : MonoBehaviour
         {
             while (LineBuffer != 0)
             {
-                Debug.Log("update buffer");
                 if (LineBuffer > 0)
                 {
                     _sides++;
@@ -115,8 +114,8 @@ public class PlayerPolygon : MonoBehaviour
     }
     public static void SetRotation()
     {
-        Rotation = _sides % 2 != 0 ? -90 : -45;
-        _rotationAlpha =  360f / _sides ;
+        Rotation = -90;
+        _rotationAlpha =  360f / _sides;
     }
     private void GetPoints()
     {
@@ -134,6 +133,5 @@ public class PlayerPolygon : MonoBehaviour
             
             points.Add(newPosition);
         }
-        
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Main : MonoBehaviour
 {
@@ -10,14 +11,14 @@ public class Main : MonoBehaviour
 
     public static List<Color32> UsedColors;
     
-    [Range(3, 64)]
+    [Range(3, 63)]
     public static int Difficulty;
     [Range(3f, 4.6f)]
     public const float Radius = 3.0f;
     public const float LineWidth = 0.5f;
     public static bool GameStarted;
     
-    private List<Color32> _allColors;
+    private static List<Color32> _allColors;
     // Start is called before the first frame update
     private void Start ()
     {
@@ -45,18 +46,19 @@ public class Main : MonoBehaviour
         highScoreText = Instantiate(highScoreText);
         player = Instantiate(player);
     }
-
-    private void AddColor()
+    // TODO Make a list of different 128 colors that fit well together 
+    private static void AddColor()
     {
         if (_allColors.Count == 0)
         {
             // Dynamic Colors
-            UsedColors.Add(new Color32(
-                    (byte)Random.Range(0, 256), //Red
-                    (byte)Random.Range(0, 256), //Green
-                    (byte)Random.Range(0, 256), //Blue
-                    255 //Alpha (transparency)
-                ));
+            var color = new Color32(
+                (byte)Random.Range(0, 256), //Red
+                (byte)Random.Range(0, 256), //Green
+                (byte)Random.Range(0, 256), //Blue
+                255 //Alpha (transparency)
+            );
+            UsedColors.Add(color);
         }
         else
         {
@@ -65,9 +67,9 @@ public class Main : MonoBehaviour
             _allColors.RemoveAt(index);
         }
     }
-
     private static void RemoveLastColor()
     {
+        _allColors.Add(UsedColors[UsedColors.Count - 1]);
         UsedColors.RemoveAt(UsedColors.Count - 1);
     }
     
@@ -76,7 +78,10 @@ public class Main : MonoBehaviour
         if (GameStarted) return;
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (Difficulty >= 64) return;
+            if (Difficulty >= 63) return;
+            Difficulty++;
+            AddColor();
+            ++PlayerPolygon.LineBuffer;
             Difficulty++;
             AddColor();
             ++PlayerPolygon.LineBuffer;
@@ -90,10 +95,22 @@ public class Main : MonoBehaviour
             Difficulty--;
             --PlayerPolygon.LineBuffer;
             RemoveLastColor();
+            Difficulty--;
+            --PlayerPolygon.LineBuffer;
+            RemoveLastColor();
             PlayerPrefs.SetInt("Difficulty", Difficulty);
             return;
         }
 
+        if (Difficulty % 2 == 0)
+        {
+            Debug.Log("Difficulty number cannot be odd");
+            Difficulty++;
+            AddColor();
+            ++PlayerPolygon.LineBuffer;
+            PlayerPrefs.SetInt("Difficulty", Difficulty);
+        }
+        
         if (!Input.GetKeyDown(KeyCode.Space)) return;
         Destroy(highScoreText);
         scoreText = Instantiate(scoreText);   

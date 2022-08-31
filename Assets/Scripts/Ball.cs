@@ -23,16 +23,20 @@ public class Ball : MonoBehaviour {
 		SpawnBall();
 		
 		var sides = Main.Difficulty;
-		if (sides <= 12) return;
-		if (sides <= 64)
-			BallSize(2f/sides);
+		if (sides < 12) return;
+
+		if (sides < 24)
+			BallSize(MapNum(sides, 11, 24,  1f,0.5f, 2));
+		else if (sides < 32)
+			BallSize(MapNum(sides, 23, 32, 0.5f,0.3f,  2));
+		else if (sides < 64)
+			BallSize(MapNum(sides, 31, 64, 0.3f, 0.1f, 2));
 		else throw new UnauthorizedAccessException();
 
 	}
 	
 	private void Update ()
 	{
-		if (!Main.GameStarted) return;
 		if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2))
 		{
 			_rb.velocity = Vector2.down * SmashForce;
@@ -58,8 +62,8 @@ public class Ball : MonoBehaviour {
 		}
 
 		if (col.gameObject.GetComponent<DrawLine>().sideNum == _currentColor) return;
-		Main.GameStarted = false;
-		_rb.velocity = Vector2.down * 1;
+		enabled = false;
+		_rb.velocity = Vector2.down * 0.8f;
 		Debug.Log($"Ball color was {_currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
 		StartCoroutine(GameOver());
 	}
@@ -90,5 +94,16 @@ public class Ball : MonoBehaviour {
 	private void BallSize(float newSize)
 	{
 		transform.localScale = new Vector3(newSize, newSize);
+	}
+	
+	public static float MapNum(int sourceNumber, double fromA, double fromB, double toA, double toB, int decimalPrecision ) {
+		var deltaA = fromB - fromA;
+		var deltaB = toB - toA;
+		var scale  = deltaB / deltaA;
+		var negA   = -1 * fromA;
+		var offset = (negA * scale) + toA;
+		var finalNumber = (sourceNumber * scale) + offset;
+		var calcScale = (int) Math.Pow(10, decimalPrecision);
+		return (float) Math.Round(finalNumber * calcScale) / calcScale;
 	}
 }

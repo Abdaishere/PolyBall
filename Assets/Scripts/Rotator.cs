@@ -2,8 +2,6 @@
 
 public class Rotator : MonoBehaviour {
 	private Rotator _rotator;
-	private const int Speed = 110;
-
 	private void Start()
 	{
 		_rotator = GetComponent<Rotator>();
@@ -13,10 +11,10 @@ public class Rotator : MonoBehaviour {
 	{
 		if (Main.GameStarted == false)
 		{
-			PlayerPolygon.Rotation += Speed * Time.deltaTime;
-			if (PlayerPolygon.Rotation > 360)
+			PlayerPolygon.Rotation -= 350f / Main.Difficulty * Time.deltaTime;
+			if (PlayerPolygon.Rotation < 0)
 			{
-				PlayerPolygon.Rotation -= 360;
+				PlayerPolygon.Rotation += 360;
 			}
 		}
 		else

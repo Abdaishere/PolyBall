@@ -9,12 +9,14 @@ public class DrawLine : MonoBehaviour
     public void DrawLineInit(int num,float w, Vector3[] se)
     {
         _lineRenderer = GetComponent<LineRenderer>();
-        _lineRenderer.startColor = Main.UsedColors[num];
-        _lineRenderer.endColor = Main.UsedColors[num];
         _lineRenderer.positionCount = 2;
         _lineRenderer.startWidth = w;
         _lineRenderer.endWidth = w;
         _lineRenderer.numCapVertices = 70;
+        _lineRenderer.SetPositions(points);
+        
+        _lineRenderer.startColor = Main.UsedColors[num];
+        _lineRenderer.endColor = Main.UsedColors[num];
 
         width = w;
         sideNum = num;
