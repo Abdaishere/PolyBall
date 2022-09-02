@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+
 
 namespace TMPro.Examples
 {
@@ -17,9 +19,9 @@ namespace TMPro.Examples
         private Vector3 m_initial_Rotation;
         private Vector3 m_initial_Position;
         private Color32 m_lightColor;
-        private int frames;
+        private int frames = 0;
 
-        public enum MotionType { Rotation, BackAndForth, Translation }
+        public enum MotionType { Rotation, BackAndForth, Translation };
         public MotionType Motion;
 
         void Awake()

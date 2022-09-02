@@ -406,7 +406,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1684526413}
-  - component: {fileID: 1684526412}
   - component: {fileID: 1684526414}
   m_Layer: 0
   m_Name: Board
@@ -415,18 +414,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!156049354 &1684526412
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684526411}
-  m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 0}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 0
-  m_CellSwizzle: 0
 --- !u!4 &1684526413
 Transform:
   m_ObjectHideFlags: 0
@@ -457,8 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ball: {fileID: 4617744727139664102, guid: af7c6f1908cef6444a9c5e5a26164588, type: 3}
   player: {fileID: 1091812818728927506, guid: d7590789b986503498745db1c480b4fe, type: 3}
-  scoreText: {fileID: 4368037211340985325, guid: f9560031744723040a2eb47e3b674340, type: 3}
-  highScoreText: {fileID: 4368037211340985325, guid: 5292b065e6c186f479ae8d0f638fb45b, type: 3}
+  titleScreen: {fileID: 4368037211340985325, guid: 5292b065e6c186f479ae8d0f638fb45b, type: 3}
 --- !u!1 &2013847823
 GameObject:
   m_ObjectHideFlags: 0

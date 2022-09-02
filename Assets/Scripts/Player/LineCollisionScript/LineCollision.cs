@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace LineCollisionScript
+namespace Player.LineCollisionScript
 {
     [RequireComponent(typeof(PolygonCollider2D))]
     public class LineCollision : MonoBehaviour

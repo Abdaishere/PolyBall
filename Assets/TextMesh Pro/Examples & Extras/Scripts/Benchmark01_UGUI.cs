@@ -1,6 +1,7 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
+
 
 namespace TMPro.Examples
 {
@@ -8,7 +9,7 @@ namespace TMPro.Examples
     public class Benchmark01_UGUI : MonoBehaviour
     {
 
-        public int BenchmarkType;
+        public int BenchmarkType = 0;
 
         public Canvas canvas;
         public TMP_FontAsset TMProFont;
@@ -78,9 +79,12 @@ namespace TMPro.Examples
                     m_textMesh.font = TextMeshFont;
                     //m_textMesh.renderer.sharedMaterial = m_textMesh.font.material;
                 }
+                else
+                {
+                    //m_textMesh.font = Resources.Load("Fonts/ARIAL", typeof(Font)) as Font;
+                    //m_textMesh.renderer.sharedMaterial = m_textMesh.font.material;
+                }
 
-                //m_textMesh.font = Resources.Load("Fonts/ARIAL", typeof(Font)) as Font;
-                //m_textMesh.renderer.sharedMaterial = m_textMesh.font.material;
                 m_textMesh.fontSize = 48;
                 m_textMesh.alignment = TextAnchor.MiddleCenter;
 
@@ -101,7 +105,7 @@ namespace TMPro.Examples
 
                 }
                 else if (BenchmarkType == 1)
-                    m_textMesh.text = label02 + (i % 1000);
+                    m_textMesh.text = label02 + (i % 1000).ToString();
 
                 yield return null;
             }
