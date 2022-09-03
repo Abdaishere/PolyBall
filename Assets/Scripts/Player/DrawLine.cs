@@ -6,8 +6,14 @@ namespace Player
     {
         public int sideNum = -1;
         public Vector3[] points;
+
+        public Vector3[] Points
+        {
+            set => points = value;
+        }
+
         private LineRenderer _lineRenderer;
-        public float width; 
+        public float width;
         public void DrawLineInit(int num,float w, Vector3[] se)
         {
             _lineRenderer = GetComponent<LineRenderer>();
@@ -37,9 +43,10 @@ namespace Player
             Destroy(_lineRenderer);
         }
 
-        public void UpdatePoints(Vector3[] se)
+        public void UpdateColor()
         {
-            points = se;
+            _lineRenderer.startColor = Main.UsedColors[sideNum];
+            _lineRenderer.endColor = Main.UsedColors[sideNum];
         }
     }
 }

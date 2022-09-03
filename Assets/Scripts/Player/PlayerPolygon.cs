@@ -13,9 +13,9 @@ namespace Player
         private GameObject score;
         private Score _score;
         
-        public List<Vector3> points;
-        public List<GameObject> lines;
-        public List<DrawLine> linesUpdaters;
+        private List<Vector3> _points;
+        private List<GameObject> _lines;
+        private static List<DrawLine> _linesUpdaters;
     
         private float _width;
         private static int _sides;
@@ -33,8 +33,8 @@ namespace Player
             _sides = Main.Difficulty;
             _radius = Ball.MapNum(_sides, 3, 63, 3f, 4.6f, 2);
             _width = Main.LineWidth;
-            linesUpdaters = new List<DrawLine>();
-            lines = new List<GameObject>();
+            _linesUpdaters = new List<DrawLine>();
+            _lines = new List<GameObject>();
             LineBuffer = 0;
 
             score = Instantiate(score, transform);
@@ -82,9 +82,9 @@ namespace Player
 
                     while (LineBuffer < 0) {
                         _sides--;
-                        linesUpdaters.RemoveAt(linesUpdaters.Count - 1);
-                        Destroy(lines[lines.Count - 1]);
-                        lines.RemoveAt(lines.Count - 1);
+                        _linesUpdaters.RemoveAt(_linesUpdaters.Count - 1);
+                        Destroy(_lines[_lines.Count - 1]);
+                        _lines.RemoveAt(_lines.Count - 1);
                         LineBuffer++;
                     }
 
@@ -99,7 +99,7 @@ namespace Player
     
         private void InitLines()
         {
-            AddLine(0, points.Count - 1);
+            AddLine(0, _points.Count - 1);
         
             for (var i = 1; i < _sides; i++)
             {
@@ -110,12 +110,12 @@ namespace Player
     
         private void UpdateLines()
         {
-            points.Clear();
+            _points.Clear();
             GetPoints();
-            linesUpdaters[0].UpdatePoints(new[]{points[0], points[points.Count - 1]});
+            _linesUpdaters[0].Points = new[]{_points[0], _points[_points.Count - 1]};
             for (var i = 1; i < _sides; i++)
             {
-                linesUpdaters[i].UpdatePoints(new[]{points[i], points[i - 1]});
+                _linesUpdaters[i].Points = new[]{_points[i], _points[i - 1]};
             }
         }
 
@@ -124,9 +124,9 @@ namespace Player
         {
             var tempLine = Instantiate(liInterface, transform);
             tempLine.GetComponent<DrawLine>().DrawLineInit(start,
-                _width, new[]{points[start], points[end]});
-            linesUpdaters.Add(tempLine.GetComponent<DrawLine>());
-            lines.Add(tempLine);
+                _width, new[]{_points[start], _points[end]});
+            _linesUpdaters.Add(tempLine.GetComponent<DrawLine>());
+            _lines.Add(tempLine);
         
         }
         public void StartGame()
@@ -135,9 +135,17 @@ namespace Player
             _rotationAlpha =  360f / _sides;
             _score.InitScore();
         }
+
+        public static void UpdateColors()
+        {
+            for (var i = 0; i < _sides; i++)
+            {
+                _linesUpdaters[i].UpdateColor();
+            }
+        }
         private void GetPoints()
         {
-            points = new List<Vector3>();
+            _points = new List<Vector3>();
 
             for (var currentPoint = 0; currentPoint < _sides; currentPoint++)
             {
@@ -149,7 +157,7 @@ namespace Player
                 newPosition = Quaternion.Euler(0, 0, rotation) * newPosition;
                 newPosition.y -= 5;
             
-                points.Add(newPosition);
+                _points.Add(newPosition);
             }
         }
     }

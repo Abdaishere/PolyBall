@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using static Main;
-using Random = UnityEngine.Random;
 
 namespace UI
 {
@@ -11,13 +9,16 @@ namespace UI
     public class RainbowWord : MonoBehaviour
     {
         private TMP_Text _textMesh;
-        private Vector3 _originalPosition;
+
+        private Shaky _shaky;
+
         // Start is called before the first frame update
         private void Start()
         {
-            _originalPosition = transform.position;
             _textMesh = GetComponent<TMP_Text>();
-            UpdateColors();
+            _shaky = GetComponent<Shaky>();
+            
+            StartCoroutine(ColorRainbow());
         }
 
         private IEnumerator ColorRainbow()
@@ -52,29 +53,16 @@ namespace UI
             }
             // ReSharper disable once IteratorNeverReturns
         }
-
-        private IEnumerator Shake(float duration, float magnitude)
+        public void UpdateColors(bool start)
         {
-            var elapsed = 0f;
-            while (elapsed < duration)
+            if (!start)
+                StopAllCoroutines();
+            else
             {
-                var x = Random.Range(-1f, 1f) * magnitude;
-                var y = Random.Range(-0.12f, 0.12f) * magnitude;
-
-                transform.position = new Vector3(x, y + _originalPosition.y, 0);
-                elapsed += Time.deltaTime;
-                yield return 0;
+                StartCoroutine(ColorRainbow());
+                if (Difficulty > 12)
+                    _shaky.ShakeItBaby(Difficulty / 100f, Difficulty / 80f);
             }
-            transform.position = _originalPosition;
-        }
-
-        public void UpdateColors()
-        {
-            StopAllCoroutines();
-            StartCoroutine(ColorRainbow());
-            
-            if (Difficulty > 12)
-                StartCoroutine(Shake(Difficulty / 100f, Difficulty / 80f));
         }
     }
 }
