@@ -43,8 +43,8 @@ namespace Player.LineCollisionScript
 
             //m = (y2 - y1) / (x2 - x1)
             var m = (positions[1].y - positions[0].y) / (positions[1].x - positions[0].x);
-            var deltaX = (width / 2f) * (m / Mathf.Pow(m * m + 1, 0.5f));
-            var deltaY = (width / 2f) * (1 / Mathf.Pow(1 + m * m, 0.5f));
+            var deltaX = width / 2f * (m / Mathf.Pow(m * m + 1, 0.5f));
+            var deltaY = width / 2f * (1 / Mathf.Pow(1 + m * m, 0.5f));
 
             //Calculate the Offset from each point to the collision vertex
             var offsets = new Vector3[2];

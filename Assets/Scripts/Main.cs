@@ -19,7 +19,7 @@ public class Main : MonoBehaviour
 
     [SerializeField]
     private new GameObject camera;
-    private Shaky _shaky;
+    private static Shaky _shaky;
 
     public static List<Color32> UsedColors;
     
@@ -29,7 +29,7 @@ public class Main : MonoBehaviour
     public const float LineWidth = 0.5f;
     public static bool GameStarted;
     public static bool GameOver;
-    private RainbowWord _rainbowWord;
+    private static RainbowWord _rainbowWord;
     
     // Add All 63 Colors to a list
     private static readonly List<Color32> AllColors = new List<Color32>
@@ -44,7 +44,7 @@ public class Main : MonoBehaviour
     };
     // Color value steps
     [Range(1, 4)]
-    private static int _steps = 2;
+    private static int _colorSteps = 2;
     
     // Start is called before the first frame update
     private void Start ()
@@ -77,9 +77,9 @@ public class Main : MonoBehaviour
         {
             // Dynamic Colors
             var color = new Color32(
-                (byte)(Random.Range(0, 256 / _steps) * _steps), //Red
-                (byte)(Random.Range(0, 256 / _steps) * _steps), //Green
-                (byte)(Random.Range(0, 256 / _steps) * _steps), //Blue
+                (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Red
+                (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Green
+                (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Blue
                 255 //Alpha (transparency)
             );
             
@@ -87,9 +87,9 @@ public class Main : MonoBehaviour
                 if (AllColors.Any(col => col.Equals(color)))
                     
                     color = new Color32(
-                        (byte)(Random.Range(0, 256 / _steps) * _steps), //Red
-                        (byte)(Random.Range(0, 256 / _steps) * _steps), //Green
-                        (byte)(Random.Range(0, 256 / _steps) * _steps), //Blue
+                        (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Red
+                        (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Green
+                        (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Blue
                         255 //Alpha (transparency)
                     );
                 
@@ -113,16 +113,27 @@ public class Main : MonoBehaviour
         UsedColors.RemoveAt(UsedColors.Count - 1);
     }
 
-    private void ChangeAllColors()
+    public static void ChangeAllColors()
     {
+        if (GameStarted) return;
+        
+        if (_colorSteps >= 4)
+            _colorSteps = 1;
+        else
+            _colorSteps++;
+        
+        Debug.Log(_colorSteps);
+        _rainbowWord.UpdateColors(false);
+        
         AllColors.Clear();
         UsedColors.Clear();
-        _shaky.ShakeItBaby(0.2f, 2.5f);
+        _shaky.ShakeItBaby(0.1f, 2.5f);
+        
         for (var i = 0; i < Difficulty; i++)
-        {
             AddColor();
-        }
+        
         PlayerPolygon.UpdateColors();
+        _rainbowWord.UpdateColors(true);
     }
     
     private void Update()
@@ -130,43 +141,31 @@ public class Main : MonoBehaviour
         if (GameStarted) return;
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (Difficulty >= 63) return;
-            Difficulty+= 2;
-            PlayerPolygon.LineBuffer += 2;
-            
-            _rainbowWord.UpdateColors(false);
-            AddColor();
-            AddColor();
-            _rainbowWord.UpdateColors(true);
-            
-            PlayerPrefs.SetInt("Difficulty", Difficulty);
+            Add();
             return;
         }
         
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (Difficulty <= 3) return;
-            Difficulty-= 2;
-            PlayerPolygon.LineBuffer -= 2;
-            
-            _rainbowWord.UpdateColors(false);
-            RemoveLastColor();
-            RemoveLastColor();
-            _rainbowWord.UpdateColors(true);
-            
-            PlayerPrefs.SetInt("Difficulty", Difficulty);
+            Remove();
             return;
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (_steps == 4)
-                _steps = 1;
-            else
-                _steps++;
-            
             ChangeAllColors();
             return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (_colorSteps == 1)
+                _colorSteps = 4;
+            else
+                _colorSteps-= 2;
+            
+            ChangeAllColors();
+            return; 
         }
 
         if (Difficulty % 2 == 0)
@@ -190,5 +189,35 @@ public class Main : MonoBehaviour
         
         ball = Instantiate(ball);
         
+    }
+
+    public static void Add()
+    {
+        if (GameStarted) return;
+        if (Difficulty >= 63) return;
+        Difficulty += 2;
+        PlayerPolygon.LineBuffer += 2;
+
+        _rainbowWord.UpdateColors(false);
+        AddColor();
+        AddColor();
+        _rainbowWord.UpdateColors(true);
+
+        PlayerPrefs.SetInt("Difficulty", Difficulty);
+    }
+    
+    public static void Remove()
+    {
+        if (GameStarted) return;
+        if (Difficulty <= 3) return;
+        Difficulty-= 2;
+        PlayerPolygon.LineBuffer -= 2;
+            
+        _rainbowWord.UpdateColors(false);
+        RemoveLastColor();
+        RemoveLastColor();
+        _rainbowWord.UpdateColors(true);
+            
+        PlayerPrefs.SetInt("Difficulty", Difficulty);
     }
 }

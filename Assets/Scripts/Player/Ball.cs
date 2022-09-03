@@ -31,20 +31,20 @@ namespace Player
 	
 		private void Update ()
 		{
-			if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(2))
+			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				_rb.velocity = Vector2.down * SmashForce;
 				return;
 			}
 		
 			_timer += Time.deltaTime;
-			if (_timer > _speedUpTime && _downForce <= 15)
-			{
-				_speedUpTime *= 2;
-				_downForce += 1;
-				_timer = 0;
-				_rb.velocity += Vector2.down * 1;
-			}
+			
+			if (!(_timer > _speedUpTime) || _downForce > 15) return;
+			
+			_speedUpTime *= 2;
+			_downForce += 1;
+			_timer = 0;
+			_rb.velocity += Vector2.down * 1;
 		}
 
 		private void OnTriggerEnter2D (Collider2D col)
@@ -67,7 +67,7 @@ namespace Player
 			Debug.Log($"Ball color was {_currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
 			StartCoroutine(GameOver());
 		}
-		private IEnumerator GameOver()
+		private static IEnumerator GameOver()
 		{
 			Time.timeScale = 0.1f;
 			yield return new WaitForSeconds(0.1f);
@@ -100,8 +100,8 @@ namespace Player
 			var deltaB = toB - toA;
 			var scale  = deltaB / deltaA;
 			var negA   = -1 * fromA;
-			var offset = (negA * scale) + toA;
-			var finalNumber = (sourceNumber * scale) + offset;
+			var offset = negA * scale + toA;
+			var finalNumber = sourceNumber * scale + offset;
 			var calcScale = (int) Math.Pow(10, decimalPrecision);
 			return (float) Math.Round(finalNumber * calcScale) / calcScale;
 		}

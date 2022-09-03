@@ -13,6 +13,7 @@ namespace UI
             _textMesh = GetComponent<TextMeshPro>();
             UpdateHighScore();
         }
+
         public static void UpdateHighScore()
         {
             _textMesh.text = PlayerPrefs.GetInt(Difficulty.ToString(), 0).ToString();

@@ -14,7 +14,7 @@ namespace UI
         {
             _textMesh = GetComponent<TextMeshPro>();
             UpdateScore();
-            _textMesh.text = "Tap to Start";
+            _textMesh.text = "Space to Start";
         }
         private void OnTriggerEnter2D(Collider2D col)
         {
@@ -30,7 +30,7 @@ namespace UI
         }
         public void UpdateScore()
         {
-            _textMesh.text = "Tap to Start";
+            _textMesh.text = "Space to Start";
             _textMesh.fontSize = Ball.MapNum(Difficulty, 3, 63, 6, 15, 2);
         }
         public void InitScore()

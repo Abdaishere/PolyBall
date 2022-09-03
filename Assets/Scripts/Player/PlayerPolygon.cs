@@ -22,8 +22,7 @@ namespace Player
     
         [Range(3f, 4.6f)]
         private static float _radius;
-        public static float Radius => _radius;
-        
+
         public float rotation;
         public static int LineBuffer;
         private float _rotationAlpha;
@@ -48,10 +47,10 @@ namespace Player
         private void Update()
         {
             if(Main.GameOver) return;
-            if (Main.GameStarted)
-            {
+            
+            if (Main.GameStarted) {
                 // controls 
-                if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetMouseButtonDown(1))
+                if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     rotation -= _rotationAlpha;
                     if (rotation < 0)
@@ -60,7 +59,7 @@ namespace Player
                     }
                 }
 
-                if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetMouseButtonDown(0))
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     rotation += _rotationAlpha;
                     if (rotation > 360)
@@ -69,10 +68,8 @@ namespace Player
                     }
                 }
             }
-            else
-            {
-                while (LineBuffer != 0)
-                {
+            else {
+                while (LineBuffer != 0) {
                     while (LineBuffer > 0) {
                         _sides++;
                         GetPoints();
@@ -100,23 +97,18 @@ namespace Player
         private void InitLines()
         {
             AddLine(0, _points.Count - 1);
-        
             for (var i = 1; i < _sides; i++)
-            {
                 AddLine(i, i -1);
-            }
-        
         }
     
         private void UpdateLines()
         {
             _points.Clear();
             GetPoints();
+            
             _linesUpdaters[0].Points = new[]{_points[0], _points[_points.Count - 1]};
             for (var i = 1; i < _sides; i++)
-            {
                 _linesUpdaters[i].Points = new[]{_points[i], _points[i - 1]};
-            }
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -135,13 +127,10 @@ namespace Player
             _rotationAlpha =  360f / _sides;
             _score.InitScore();
         }
-
-        public static void UpdateColors()
-        {
-            for (var i = 0; i < _sides; i++)
-            {
-                _linesUpdaters[i].UpdateColor();
-            }
+        public static void UpdateColors() {
+        
+            foreach(var line in _linesUpdaters) 
+                line.UpdateColor();
         }
         private void GetPoints()
         {
