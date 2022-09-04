@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using static Main;
 
-namespace UI
+namespace UI.Add___Delete_Buttons
 {
     [RequireComponent(typeof(TextMeshPro))]
     public class ColorsCount : MonoBehaviour

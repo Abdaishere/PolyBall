@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Player;
 using UI;
+using UI.Add___Delete_Buttons;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -141,13 +142,13 @@ public class Main : MonoBehaviour
         if (GameStarted) return;
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Add();
+            ButtonsManager.Add();
             return;
         }
         
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Remove();
+            ButtonsManager.Remove();
             return;
         }
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3619899585917298174}
   - component: {fileID: 9183529311260137395}
   - component: {fileID: 5134982622128327077}
-  - component: {fileID: 4462511783689607329}
+  - component: {fileID: 4952084130833968008}
   m_Layer: 5
   m_Name: Remove Button
   m_TagString: Untagged
@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.5, y: -0.5}
+  m_AnchoredPosition: {x: -1.4, y: -0.5}
   m_SizeDelta: {x: 0.6, y: 0.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3619899585917298174
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 823756967740626667, guid: 1f36c58e892861d45b9dfda840cf272d, type: 3}
         m_TargetAssemblyTypeName: UI.ButtonsManager, Assembly-CSharp
         m_MethodName: Remove
         m_Mode: 1
@@ -134,7 +134,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4462511783689607329
+--- !u!114 &4952084130833968008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,11 +143,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3906544968046187511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a99b8ec209b546799289888e6ad7e927, type: 3}
+  m_Script: {fileID: 11500000, guid: 42b0f8feb6e275c478003d312581adcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btnAdd: {fileID: 0}
-  btnRemove: {fileID: 0}
 --- !u!1 &8925723899819679876
 GameObject:
   m_ObjectHideFlags: 0

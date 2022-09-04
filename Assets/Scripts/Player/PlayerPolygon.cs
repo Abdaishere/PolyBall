@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UI;
+using UI.Add___Delete_Buttons;
 using UnityEngine;
 
 namespace Player
@@ -105,10 +106,15 @@ namespace Player
         {
             _points.Clear();
             GetPoints();
-            
-            _linesUpdaters[0].Points = new[]{_points[0], _points[_points.Count - 1]};
-            for (var i = 1; i < _sides; i++)
-                _linesUpdaters[i].Points = new[]{_points[i], _points[i - 1]};
+
+            try {
+                _linesUpdaters[0].Points = new[] { _points[0], _points[_points.Count - 1] };
+                for (var i = 1; i < _sides; i++)
+                    _linesUpdaters[i].Points = new[] { _points[i], _points[i - 1] };
+            }
+            catch {
+                // ignored
+            }
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

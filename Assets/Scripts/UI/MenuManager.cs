@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 // ReSharper disable All
@@ -8,10 +9,19 @@ namespace UI
     {
         public static bool GameIsPaused;
 
-        public GameObject pauseMenuUI;
+        [SerializeField]
+        private GameObject pauseMenuUI;
+        
+        [SerializeField]
+        private GameObject HighScoreContent;
+        
+        [SerializeField]
+        private GameObject HighScoreView;
+        
         private void Start()
         {
             pauseMenuUI.SetActive(false);
+            HighScoreView.SetActive(false);
         }
 
         private void Update()
@@ -28,6 +38,20 @@ namespace UI
                 Pause();
         }
 
+        public void ShowHighScores()
+        {
+            HighScoreContent = Instantiate(HighScoreContent, HighScoreView.transform);
+            pauseMenuUI.SetActive(false);
+            HighScoreView.SetActive(true);
+        }
+        
+        public void HideHighScores()
+        {
+            HighScoreView.SetActive(false);
+            pauseMenuUI.SetActive(true);
+            Destroy(HighScoreContent);
+        }
+        
         public void Resume()
         {
             StartCoroutine(ResumeRoutine());
