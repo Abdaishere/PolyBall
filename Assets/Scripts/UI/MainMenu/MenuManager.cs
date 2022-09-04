@@ -10,18 +10,14 @@ namespace UI
         public static bool GameIsPaused;
 
         [SerializeField]
-        private static GameObject pauseMenuUI;
+        private GameObject pauseMenuUI;
 
         [SerializeField]
-        private GameObject HighScoreScrollView;
-
-        [SerializeField]
-        private static GameObject HighScoreWindow;
+        private GameObject HighScoreWindow;
 
         private void Start()
         {
             HighScoreWindow = Instantiate(HighScoreWindow, transform);
-            HighScoreScrollView = Instantiate(HighScoreScrollView, HighScoreWindow.transform);
 
             pauseMenuUI.SetActive(false);
             HighScoreWindow.SetActive(false);
@@ -43,7 +39,7 @@ namespace UI
         
         public void ShowHighScores()
         {
-            HighScoreScrollView.GetComponentInChildren<HighScoresList>().UpdateList();
+            HighScoreWindow.GetComponentInChildren<HighScoresList>().UpdateList();
             pauseMenuUI.SetActive(false);
             HighScoreWindow.SetActive(true);
         }
@@ -59,13 +55,17 @@ namespace UI
             pauseMenuUI.SetActive(false);
             
             Time.timeScale = 0.2f;
-            yield return new WaitForSeconds(0.06f);
+            yield return new WaitForSeconds(0.1f);
+            Time.timeScale = 0.4f;
+            yield return new WaitForSeconds(0.1f);
+            Time.timeScale = 0.8f;
+            yield return new WaitForSeconds(0.1f);
             Time.timeScale = 1;
             
             GameIsPaused = false;
         }
 
-        public static void Pause()
+        public void Pause()
         {
             HighScoreWindow.SetActive(false);
             pauseMenuUI.SetActive(true);
