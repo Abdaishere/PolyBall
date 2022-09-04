@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using static Main;
 
-namespace UI
+namespace UI.ScoreSystem
 {
     public class Score : MonoBehaviour
     {

@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using UI.MainMenu.HighScoreView;
 using UnityEngine;
 // ReSharper disable All
 
@@ -10,18 +10,21 @@ namespace UI
         public static bool GameIsPaused;
 
         [SerializeField]
-        private GameObject pauseMenuUI;
-        
+        private static GameObject pauseMenuUI;
+
         [SerializeField]
-        private GameObject HighScoreContent;
-        
+        private GameObject HighScoreScrollView;
+
         [SerializeField]
-        private GameObject HighScoreView;
-        
+        private static GameObject HighScoreWindow;
+
         private void Start()
         {
+            HighScoreWindow = Instantiate(HighScoreWindow, transform);
+            HighScoreScrollView = Instantiate(HighScoreScrollView, HighScoreWindow.transform);
+
             pauseMenuUI.SetActive(false);
-            HighScoreView.SetActive(false);
+            HighScoreWindow.SetActive(false);
         }
 
         private void Update()
@@ -37,25 +40,20 @@ namespace UI
             else
                 Pause();
         }
-
+        
         public void ShowHighScores()
         {
-            HighScoreContent = Instantiate(HighScoreContent, HighScoreView.transform);
+            HighScoreScrollView.GetComponentInChildren<HighScoresList>().UpdateList();
             pauseMenuUI.SetActive(false);
-            HighScoreView.SetActive(true);
+            HighScoreWindow.SetActive(true);
         }
-        
-        public void HideHighScores()
-        {
-            HighScoreView.SetActive(false);
-            pauseMenuUI.SetActive(true);
-            Destroy(HighScoreContent);
-        }
-        
+
         public void Resume()
         {
+            HighScoreWindow.SetActive(false);
             StartCoroutine(ResumeRoutine());
         }
+        
         private IEnumerator ResumeRoutine()
         {
             pauseMenuUI.SetActive(false);
@@ -67,8 +65,9 @@ namespace UI
             GameIsPaused = false;
         }
 
-        public void Pause()
+        public static void Pause()
         {
+            HighScoreWindow.SetActive(false);
             pauseMenuUI.SetActive(true);
             Time.timeScale = 0f;
             GameIsPaused = true;
