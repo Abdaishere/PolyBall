@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using static Main;
 
-namespace UI
+namespace UI.ScoreSystem
 {
     [RequireComponent(typeof(TextMeshPro))]
     public class HighScore : MonoBehaviour
