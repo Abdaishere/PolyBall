@@ -17,8 +17,6 @@ namespace UI
 
         private void Start()
         {
-            HighScoreWindow = Instantiate(HighScoreWindow, transform);
-
             pauseMenuUI.SetActive(false);
             HighScoreWindow.SetActive(false);
         }
@@ -53,6 +51,7 @@ namespace UI
         private IEnumerator ResumeRoutine()
         {
             pauseMenuUI.SetActive(false);
+            GameIsPaused = false;
             
             Time.timeScale = 0.2f;
             yield return new WaitForSeconds(0.1f);
@@ -61,8 +60,6 @@ namespace UI
             Time.timeScale = 0.8f;
             yield return new WaitForSeconds(0.1f);
             Time.timeScale = 1;
-            
-            GameIsPaused = false;
         }
 
         public void Pause()

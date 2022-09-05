@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace UI
+namespace UI.Animations
 {
     public class Shaky : MonoBehaviour
     {

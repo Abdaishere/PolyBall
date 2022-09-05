@@ -19,7 +19,7 @@ namespace UI.Add___Delete_Buttons
         {
             if (Difficulty > 12)
             {
-                var r = (byte)(255 - Ball.MapNum(Difficulty, 11, 63, 0, 255, 2));
+                var r = (byte)(255 - Ball.MapNum(Difficulty, 0, 63, 0, 255, 2));
                 _textMesh.color = new Color32(255, r, r, 255);
             }
             else

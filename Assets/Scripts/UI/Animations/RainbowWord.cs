@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using static Main;
 
-namespace UI
+namespace UI.Animations
 {
     [RequireComponent(typeof(TMP_Text))]
     public class RainbowWord : MonoBehaviour

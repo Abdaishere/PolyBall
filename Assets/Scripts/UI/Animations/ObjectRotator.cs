@@ -1,7 +1,6 @@
 using UnityEngine;
 
-
-namespace UI
+namespace UI.Animations
 {
     public class ObjectRotator : MonoBehaviour
     {

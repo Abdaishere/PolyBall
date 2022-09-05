@@ -13,8 +13,8 @@ namespace UI.ScoreSystem
         private void Start()
         {
             _textMesh = GetComponent<TextMeshPro>();
-            UpdateScore();
             _textMesh.text = "Space to Start";
+            UpdateScore();
         }
         private void OnTriggerEnter2D(Collider2D col)
         {
@@ -30,7 +30,6 @@ namespace UI.ScoreSystem
         }
         public void UpdateScore()
         {
-            _textMesh.text = "Space to Start";
             _textMesh.fontSize = Ball.MapNum(Difficulty, 3, 63, 6, 15, 2);
         }
         public void InitScore()
@@ -38,6 +37,5 @@ namespace UI.ScoreSystem
             _highScore = PlayerPrefs.GetInt(Difficulty.ToString(), 0);
             _textMesh.text = "0";
         }
-        
     }
 }

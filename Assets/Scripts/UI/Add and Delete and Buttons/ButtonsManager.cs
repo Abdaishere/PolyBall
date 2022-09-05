@@ -1,5 +1,4 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using static Main;
 
 namespace UI.Add___Delete_Buttons
@@ -16,6 +15,7 @@ namespace UI.Add___Delete_Buttons
         
         private static TextColorSetter _addColor;
         private static TextColorSetter _removeColor;
+        
         private void Start()
         {
             btnAdd = Instantiate(btnAdd, transform);
@@ -74,6 +74,5 @@ namespace UI.Add___Delete_Buttons
         {
             Main.ChangeAllColors();
         }
-        
     }
 }

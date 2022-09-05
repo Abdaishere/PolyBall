@@ -64,7 +64,7 @@ namespace Player
 			enabled = false;
 			Main.GameOver = true;
 			_rb.velocity = Vector2.down * 0.8f;
-			Debug.Log($"Ball color was {_currentColor} and touched {col.gameObject.GetComponent<DrawLine>().sideNum}");
+			
 			StartCoroutine(GameOver());
 		}
 		private static IEnumerator GameOver()

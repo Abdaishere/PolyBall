@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Player;
-using UI;
 using UI.Add___Delete_Buttons;
+using UI.Animations;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -85,7 +85,7 @@ public class Main : MonoBehaviour
             );
             
             while (true) {
-                if (AllColors.Any(col => col.Equals(color)))
+                if (AllColors.Any(col => col.a == color.a && col.b == color.b && col.g == color.g))
                     
                     color = new Color32(
                         (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Red
@@ -119,11 +119,10 @@ public class Main : MonoBehaviour
         if (GameStarted) return;
         
         if (_colorSteps >= 4)
-            _colorSteps = 1;
+            _colorSteps = 3;
         else
             _colorSteps++;
         
-        Debug.Log(_colorSteps);
         _rainbowWord.UpdateColors(false);
         
         AllColors.Clear();
@@ -157,18 +156,7 @@ public class Main : MonoBehaviour
             ChangeAllColors();
             return;
         }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if (_colorSteps == 1)
-                _colorSteps = 4;
-            else
-                _colorSteps-= 2;
-            
-            ChangeAllColors();
-            return; 
-        }
-
+        
         if (Difficulty % 2 == 0)
         {
             Difficulty++;
