@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UI.Add___Delete_Buttons;
 using UI.ScoreSystem;
@@ -25,8 +26,13 @@ namespace Player
         private static float _radius;
 
         public float rotation;
+        public float targetRotation;
+        [Range(-1, 1)] private int _rotationDirection;
+        
         public static int LineBuffer;
+        
         private float _rotationAlpha;
+        private float _rotationScale;
         private const float Tau = 2 * Mathf.PI;
         private void Start()
         {
@@ -47,26 +53,26 @@ namespace Player
         // Update is called once per frame
         private void Update()
         {
-            if(Main.GameOver) return;
+            UpdateLines();
             
+            if(Main.GameOver) return;
+
             if (Main.GameStarted) {
+                if (Rotating()) return;
+                
                 // controls 
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    rotation -= _rotationAlpha;
-                    if (rotation < 0)
-                    {
-                        rotation += 360;
-                    }
+                    rotation = targetRotation;
+                    targetRotation -= _rotationAlpha;
+                    _rotationDirection = -1;
                 }
 
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    rotation += _rotationAlpha;
-                    if (rotation > 360)
-                    {
-                        rotation -= 360;
-                    }
+                    rotation = targetRotation;
+                    targetRotation += _rotationAlpha;
+                    _rotationDirection = 1;
                 }
             }
             else {
@@ -92,9 +98,7 @@ namespace Player
                     ColorsCount.UpdateHighScore();
                 }
             }
-            UpdateLines();
         }
-    
         private void InitLines()
         {
             AddLine(0, _points.Count - 1);
@@ -127,10 +131,51 @@ namespace Player
             _lines.Add(tempLine);
         
         }
+        
+        private bool Rotating()
+        {
+            switch (_rotationDirection)
+            {
+                case 0 : return false;
+                // rotating clockwise
+                case -1 when targetRotation > rotation:
+                {
+                    if (targetRotation < 0)
+                    {
+                        targetRotation += 360;
+                    }
+
+                    _rotationDirection = 0;
+                    rotation = targetRotation;
+                    return false;
+                }
+                // rotating counter clockwise
+                case 1 when targetRotation < rotation:
+                {
+                    if (targetRotation > 360)
+                    {
+                        targetRotation -= 360;
+                    }
+                
+                    _rotationDirection = 0;
+                    rotation = targetRotation;
+                    return false;
+                }
+                default:
+                    var delta = Math.Abs(targetRotation - rotation);
+                    rotation += Math.Min(_rotationScale * Time.deltaTime * _rotationDirection, delta);
+                    return !(delta < _rotationAlpha * 0.25);
+            }
+        }
         public void StartGame()
         {
             rotation = -90;
+            targetRotation = rotation;
+            
             _rotationAlpha =  360f / _sides;
+            _rotationScale = Ball.MapNum(_sides, 3, 63, 900, 100, 2);
+            _rotationDirection = 0;
+            
             _score.InitScore();
         }
         public static void UpdateColors() {

@@ -45,14 +45,14 @@ public class Main : MonoBehaviour
     };
     // Color value steps
     [Range(1, 4)]
-    private static int _colorSteps = 2;
-    
+    private static int _colorSteps = 4;
+
     // Start is called before the first frame update
     private void Start ()
     {
         GameStarted = false;
         GameOver = false;
-        Difficulty = PlayerPrefs.GetInt("Difficulty", 5);
+        Difficulty = PlayerPrefs.GetInt("Difficulty", 7);
         
         // Add the used Colors
         UsedColors = new List<Color32>();
@@ -73,9 +73,9 @@ public class Main : MonoBehaviour
     // TODO Make a list of different 128 colors that fit well together 
     private static void AddColor()
     {
-        
         if (AllColors.Count == 0)
         {
+            _colorSteps = 256 / Difficulty;
             // Dynamic Colors
             var color = new Color32(
                 (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Red
@@ -85,8 +85,7 @@ public class Main : MonoBehaviour
             );
             
             while (true) {
-                if (AllColors.Any(col => col.a == color.a && col.b == color.b && col.g == color.g))
-                    
+                if (UsedColors.Any(col => col.r == color.r && col.g == color.g && col.b == color.b))
                     color = new Color32(
                         (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Red
                         (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Green
@@ -97,7 +96,7 @@ public class Main : MonoBehaviour
                 else
                     break;
             }
-
+            Debug.Log(color);
             UsedColors.Add(color);
         }
         else
@@ -118,10 +117,7 @@ public class Main : MonoBehaviour
     {
         if (GameStarted) return;
         
-        if (_colorSteps >= 4)
-            _colorSteps = 3;
-        else
-            _colorSteps++;
+        _colorSteps = _colorSteps == 4 ? 3 : 4;
         
         _rainbowWord.UpdateColors(false);
         
@@ -139,6 +135,7 @@ public class Main : MonoBehaviour
     private void Update()
     {
         if (GameStarted) return;
+
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             ButtonsManager.Add();
