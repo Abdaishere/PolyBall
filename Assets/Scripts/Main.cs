@@ -6,6 +6,7 @@ using UI.Animations;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(AudioSource))]
 public class Main : MonoBehaviour
 {
     [SerializeField]
@@ -21,39 +22,46 @@ public class Main : MonoBehaviour
     [SerializeField]
     private new GameObject camera;
     private static Shaky _shaky;
-
+    
+    private static AudioSource _scrambleAudioSource;
+    
     public static List<Color32> UsedColors;
     
     [Range(3, 63)]
     public static int Difficulty;
     
-    public const float LineWidth = 0.5f;
+    public const float LineWidth = 0.52f;
     public static bool GameStarted;
     public static bool GameOver;
     private static RainbowWord _rainbowWord;
     
     // Add All 63 Colors to a list
-    private static readonly List<Color32> AllColors = new List<Color32>
-    {
-        new Color32(0, 128, 204, 255),
-        new Color32(0, 184, 184, 255),
-        new Color32(48, 178, 12, 255),
-        new Color32(196, 101, 0, 255),
-        new Color32(102, 26, 204, 255),
-        new Color32(174, 11, 28, 255),
-        new Color32(189, 154, 0, 255)
-    };
+    private static List<Color32> _allColors;
+    
     // Color value steps
+    // TODO change the system to a 3d array of r g b to chose from each time
     [Range(1, 4)]
     private static int _colorSteps = 4;
 
     // Start is called before the first frame update
     private void Start ()
     {
+        _scrambleAudioSource = GetComponent<AudioSource>();
+        
         GameStarted = false;
         GameOver = false;
         Difficulty = PlayerPrefs.GetInt("Difficulty", 7);
-        
+     
+        _allColors = new List<Color32>
+        {
+            new Color32(0, 128, 204, 255),
+            new Color32(0, 184, 184, 255),
+            new Color32(48, 178, 12, 255),
+            new Color32(196, 101, 0, 255),
+            new Color32(102, 26, 204, 255),
+            new Color32(174, 11, 28, 255),
+            new Color32(189, 154, 0, 255)
+        };
         // Add the used Colors
         UsedColors = new List<Color32>();
         for (var i = 0; i < Difficulty; i++)
@@ -73,9 +81,8 @@ public class Main : MonoBehaviour
     // TODO Make a list of different 128 colors that fit well together 
     private static void AddColor()
     {
-        if (AllColors.Count == 0)
+        if (_allColors.Count == 0)
         {
-            _colorSteps = 256 / Difficulty;
             // Dynamic Colors
             var color = new Color32(
                 (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Red
@@ -85,31 +92,29 @@ public class Main : MonoBehaviour
             );
             
             while (true) {
-                if (UsedColors.Any(col => col.r == color.r && col.g == color.g && col.b == color.b))
+                if (UsedColors.Any(col => col.r == color.r || col.g == color.g || col.b == color.b))
                     color = new Color32(
                         (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Red
                         (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Green
                         (byte)(Random.Range(0, 256 / _colorSteps) * _colorSteps), //Blue
                         255 //Alpha (transparency)
                     );
-                
                 else
                     break;
             }
-            Debug.Log(color);
+            
             UsedColors.Add(color);
         }
         else
         {
-            var index = Random.Range(0, AllColors.Count);
-            UsedColors.Add(AllColors[index]);
-            AllColors.RemoveAt(index);
+            var index = Random.Range(0, _allColors.Count);
+            UsedColors.Add(_allColors[index]);
+            _allColors.RemoveAt(index);
         }
-        
     }
     private static void RemoveLastColor()
     {
-        AllColors.Add(UsedColors[UsedColors.Count - 1]);
+        _allColors.Add(UsedColors[UsedColors.Count - 1]);
         UsedColors.RemoveAt(UsedColors.Count - 1);
     }
 
@@ -117,11 +122,11 @@ public class Main : MonoBehaviour
     {
         if (GameStarted) return;
         
+        _scrambleAudioSource.Play();
         _colorSteps = _colorSteps == 4 ? 3 : 4;
-        
         _rainbowWord.UpdateColors(false);
         
-        AllColors.Clear();
+        _allColors.Clear();
         UsedColors.Clear();
         _shaky.ShakeItBaby(0.1f, 2.5f);
         

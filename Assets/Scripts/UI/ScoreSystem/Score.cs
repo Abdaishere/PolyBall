@@ -10,6 +10,8 @@ namespace UI.ScoreSystem
         private int _score;
         private int _highScore;
         private TextMeshPro _textMesh;
+
+        [SerializeField] private AudioSource popSound;
         private void Start()
         {
             _textMesh = GetComponent<TextMeshPro>();
@@ -18,9 +20,11 @@ namespace UI.ScoreSystem
         }
         private void OnTriggerEnter2D(Collider2D col)
         {
+            if(GameOver) return;
             if (!col.CompareTag("Player")) return;
             
             _score++;
+            popSound.Play();
             _textMesh.text = _score.ToString();
         
             if (_score <= _highScore) return;

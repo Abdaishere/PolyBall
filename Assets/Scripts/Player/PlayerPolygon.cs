@@ -173,14 +173,14 @@ namespace Player
             targetRotation = rotation;
             
             _rotationAlpha =  360f / _sides;
-            _rotationScale = Ball.MapNum(_sides, 3, 63, 900, 100, 2);
+            _rotationScale = Ball.MapNum(_sides, 3, 63, 1000, 50, 2);
             _rotationDirection = 0;
             
             _score.InitScore();
         }
         public static void UpdateColors() {
-        
-            foreach(var line in _linesUpdaters) 
+            
+            foreach(var line in _linesUpdaters)
                 line.UpdateColor();
         }
         private void GetPoints()

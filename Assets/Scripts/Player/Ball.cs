@@ -14,25 +14,36 @@ namespace Player
 		private const int SmashForce = 30;
 		private float _timer;
 		private int _speedUpTime = 5;
-		private Rigidbody2D _rb;
+		private static Rigidbody2D _rb;
 		private SpriteRenderer _sr;
 		private int _currentColor;
+
+		private static AudioSource _gameOver;
+
+		[SerializeField] private TrailRenderer trailRenderer;
 		private void Start ()
 		{
+			_gameOver = GetComponent<AudioSource>();
 			_spawnPosition = transform.position;
 			_rb = GetComponent<Rigidbody2D>();
 			_sr = GetComponent<SpriteRenderer>();
 		
 			SpawnBall();
-		
-			var sides = Main.Difficulty;
-			BallSize(MapNum(sides, 3, 63, 1f, 0.3f, 2));
+			BallSize(MapNum(Main.Difficulty, 3, 63, 1f, 0.3f, 2));
 		}
 	
 		private void Update ()
 		{
+			if (Main.GameOver) return;
+			
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
+				trailRenderer.colorGradient = new Gradient
+				{
+					colorKeys = new []{new GradientColorKey(_sr.color, 0), new GradientColorKey(Color.white, 1)},
+					alphaKeys = new []{new GradientAlphaKey(1, 0), new GradientAlphaKey(0, 1)}
+				};
+				
 				_rb.velocity = Vector2.down * SmashForce;
 				return;
 			}
@@ -49,34 +60,42 @@ namespace Player
 
 		private void OnTriggerEnter2D (Collider2D col)
 		{
+			if (Main.GameOver) return;
+			
 			if (col.CompareTag("Goal"))
 			{
 				SpawnBall();
 				return;
 			}
 
-			if (col.gameObject.GetComponent<DrawLine>().sideNum == _currentColor)
+			if (col.gameObject.GetComponent<DrawLine>().sideNum != _currentColor)
 			{
-				// TODO point added animation and sound
-				_rb.velocity = Vector2.down * 30;
-				return;
+				_rb.velocity = Vector2.down * 0f;
+				Main.GameOver = true;
+				StartCoroutine(GameOver());
 			}
-			enabled = false;
-			Main.GameOver = true;
-			_rb.velocity = Vector2.down * 0.8f;
-			
-			StartCoroutine(GameOver());
+			else
+			{
+				_rb.velocity = Vector2.down * 30;
+			}
 		}
 		private static IEnumerator GameOver()
 		{
+			_rb.velocity = Vector2.down * 1f;
+			_gameOver.Play();
 			Time.timeScale = 0.1f;
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.12f);
+			Time.timeScale = 0.15f;
+			yield return new WaitForSeconds(0.04f);
+			_rb.velocity = Vector2.down * 0.3f;
+			yield return new WaitForSeconds(0.02f);
 			Time.timeScale = 1;
+			yield return new WaitForSeconds(0.01f);
 			
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 	
-		private void SpawnBall ()
+		private void SpawnBall()
 		{
 			_rb.velocity = Vector2.down * _downForce;
 			transform.position = _spawnPosition;
@@ -86,12 +105,21 @@ namespace Player
 			{
 				index = Random.Range(0, Main.UsedColors.Count);
 			}
+			
 			_currentColor = index;
 			_sr.color = Main.UsedColors[index];
+			trailRenderer.colorGradient = new Gradient
+			{
+				colorKeys = new []{new GradientColorKey(_sr.color, 0), new GradientColorKey(Color.white, 1)},
+				alphaKeys = new []{new GradientAlphaKey(MapNum(Main.Difficulty, 3, 63, 0, 0.5f, 2), 0), new GradientAlphaKey(0, 1)}
+			};
 		}
 
 		private void BallSize(float newSize)
 		{
+			trailRenderer.startWidth = newSize * 0.9f;
+			trailRenderer.endWidth = newSize * 0.4f;
+			
 			transform.localScale = new Vector3(newSize, newSize);
 		}
 

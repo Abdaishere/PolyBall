@@ -14,7 +14,7 @@ namespace UI
 
         [SerializeField]
         private GameObject HighScoreWindow;
-
+        
         private void Start()
         {
             pauseMenuUI.SetActive(false);
@@ -26,7 +26,7 @@ namespace UI
             if (!Input.GetKeyDown(KeyCode.Escape)) return;
             PauseMenu();
         }
-
+        
         public void PauseMenu()
         {
             if (GameIsPaused)
