@@ -34,6 +34,8 @@ namespace Player
         private float _rotationAlpha;
         private float _rotationScale;
         private const float Tau = 2 * Mathf.PI;
+
+        [SerializeField] private AudioSource audioSource;
         private void Start()
         {
             _sides = Main.Difficulty;
@@ -63,17 +65,19 @@ namespace Player
                 // controls 
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
+                    audioSource.Play();
                     rotation = targetRotation;
                     targetRotation -= _rotationAlpha;
                     _rotationDirection = -1;
                 }
 
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
-                {
-                    rotation = targetRotation;
-                    targetRotation += _rotationAlpha;
-                    _rotationDirection = 1;
-                }
+                if (!Input.GetKeyDown(KeyCode.LeftArrow)) return;
+                
+                audioSource.Play();
+                rotation = targetRotation;
+                targetRotation += _rotationAlpha;
+                _rotationDirection = 1;
+                
             }
             else {
                 while (LineBuffer != 0) {
