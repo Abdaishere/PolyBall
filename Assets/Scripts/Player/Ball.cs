@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using UI;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -34,7 +36,7 @@ namespace Player
 	
 		private void Update ()
 		{
-			if (Main.GameOver) return;
+			if (Main.GameOver || MenuManager.GameIsPaused) return;
 			
 			if (Input.GetKeyDown(KeyCode.Space))
 			{

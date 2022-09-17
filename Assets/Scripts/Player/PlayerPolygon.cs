@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UI;
 using UI.Add___Delete_Buttons;
 using UI.ScoreSystem;
 using UnityEngine;
@@ -57,7 +58,7 @@ namespace Player
         {
             UpdateLines();
             
-            if(Main.GameOver) return;
+            if(Main.GameOver || MenuManager.GameIsPaused) return;
 
             if (Main.GameStarted) {
                 if (Rotating()) return;

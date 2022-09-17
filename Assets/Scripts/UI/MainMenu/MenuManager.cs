@@ -53,11 +53,11 @@ namespace UI
             pauseMenuUI.SetActive(false);
             GameIsPaused = false;
             
-            Time.timeScale = 0.2f;
-            yield return new WaitForSeconds(0.1f);
-            Time.timeScale = 0.4f;
-            yield return new WaitForSeconds(0.1f);
-            Time.timeScale = 0.8f;
+            Time.timeScale = 0.5f;
+            yield return new WaitForSeconds(0.2f);
+            Time.timeScale = 0.7f;
+            yield return new WaitForSeconds(0.12f);
+            Time.timeScale = 0.9f;
             yield return new WaitForSeconds(0.1f);
             Time.timeScale = 1;
         }

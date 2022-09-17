@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Player;
+using UI;
 using UI.Add___Delete_Buttons;
 using UI.Animations;
 using UnityEngine;
@@ -139,7 +140,7 @@ public class Main : MonoBehaviour
     
     private void Update()
     {
-        if (GameStarted) return;
+        if (GameStarted || MenuManager.GameIsPaused) return;
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
