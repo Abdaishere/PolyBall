@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="/ScreenShots/main.gif">
-  <img src="/ScreenShots/controls.gif">
+    <img src="https://i.imgur.com/qXqg17U.gif">
+    <img src="https://i.imgur.com/qTb41lg.gif">
 </p>
 
 The Score is based on how many colors you have +1 point for each two lines.
