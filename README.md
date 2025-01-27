@@ -1,6 +1,6 @@
 <p align="center">
-  ![Image1](./ScreenShots/main.gif)
-  ![Image2](./ScreenShots/controls.gif)
+  <img src="/ScreenShots/main.gif">
+  <img src="/ScreenShots/controls.gif">
 </p>
 
 The Score is based on how many colors you have +1 point for each two lines.
@@ -16,4 +16,4 @@ The Score is based on how many colors you have +1 point for each two lines.
 | Rotate Right      | Right Arrow          | In Game     |
 | Smash Ball Down   | Space Button         | In Game     |
 
-> Keep in mind that the number of Colors/ Polygon Sides are always an odd number. Why? Because I said so.
+> Keep in mind that the number of Colors/ Polygon Sides are always an odd number.
