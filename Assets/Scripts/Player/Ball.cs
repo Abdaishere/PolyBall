@@ -46,7 +46,7 @@ namespace Player
 					alphaKeys = new []{new GradientAlphaKey(1, 0), new GradientAlphaKey(0, 1)}
 				};
 				
-				_rb.velocity = Vector2.down * SmashForce;
+				_rb.linearVelocity = Vector2.down * SmashForce;
 				return;
 			}
 		
@@ -57,7 +57,7 @@ namespace Player
 			_speedUpTime *= 2;
 			_downForce += 1;
 			_timer = 0;
-			_rb.velocity += Vector2.down * 1;
+			_rb.linearVelocity += Vector2.down * 1;
 		}
 
 		private void OnTriggerEnter2D (Collider2D col)
@@ -72,24 +72,24 @@ namespace Player
 
 			if (col.gameObject.GetComponent<DrawLine>().sideNum != _currentColor)
 			{
-				_rb.velocity = Vector2.down * 0f;
+				_rb.linearVelocity = Vector2.down * 0f;
 				Main.GameOver = true;
 				StartCoroutine(GameOver());
 			}
 			else
 			{
-				_rb.velocity = Vector2.down * 30;
+				_rb.linearVelocity = Vector2.down * 30;
 			}
 		}
 		private static IEnumerator GameOver()
 		{
-			_rb.velocity = Vector2.down * 1f;
+			_rb.linearVelocity = Vector2.down * 1f;
 			_gameOver.Play();
 			Time.timeScale = 0.1f;
 			yield return new WaitForSeconds(0.12f);
 			Time.timeScale = 0.15f;
 			yield return new WaitForSeconds(0.04f);
-			_rb.velocity = Vector2.down * 0.3f;
+			_rb.linearVelocity = Vector2.down * 0.3f;
 			yield return new WaitForSeconds(0.02f);
 			Time.timeScale = 1;
 			yield return new WaitForSeconds(0.01f);
@@ -99,7 +99,7 @@ namespace Player
 	
 		private void SpawnBall()
 		{
-			_rb.velocity = Vector2.down * _downForce;
+			_rb.linearVelocity = Vector2.down * _downForce;
 			transform.position = _spawnPosition;
 		
 			var index = Random.Range(0, Main.UsedColors.Count);

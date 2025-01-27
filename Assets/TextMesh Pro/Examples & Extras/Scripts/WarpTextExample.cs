@@ -139,7 +139,6 @@ namespace TMPro.Examples
 
                 yield return new WaitForSeconds(0.025f);
             }
-            // ReSharper disable once IteratorNeverReturns
         }
     }
 }
