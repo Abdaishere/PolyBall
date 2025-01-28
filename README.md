@@ -10,21 +10,25 @@ Welcome to PolyBall - where geometry meets fun!
 ## 📸 Game Preview
 
 ### Main Menu
+
 <p align="center">
     <img src="screenshots/mainMenu.png" alt="Main Menu">
 </p>
 
 ### Gameplay Examples
+
 <p align="center">
     <img src="screenshots/main.gif" alt="Gameplay">
 </p>
 
 ### Different Polygon Shapes
+
 <p align="center">
     <img src="screenshots/octagon.png" alt="Octagon Example">
 </p>
 
 ### Controls Tutorial
+
 <p align="center">
     <img src="screenshots/controls.gif" alt="Controls Tutorial">
 </p>
@@ -40,6 +44,7 @@ Welcome to PolyBall - where geometry meets fun!
 ## 🎯 How to Play
 
 1. **Start by Customizing Your Polygon**:
+
    - Use the arrow keys to adjust your polygon in the main screen
    - The number of sides will always be odd (3, 5, 7, etc.)
    - Each configuration has its own high score to beat!
@@ -47,18 +52,20 @@ Welcome to PolyBall - where geometry meets fun!
 2. **Master the Controls**:
 
 ### Main Screen Controls
-| Action            | Button              |
-|-------------------|---------------------|
-| Add Color         | Right Arrow         |
-| Remove Last Color | Left Arrow          |
-| Randomize Colors  | Up/Down Arrow       |
+
+| Action            | Button        |
+| ----------------- | ------------- |
+| Add Color         | Right Arrow   |
+| Remove Last Color | Left Arrow    |
+| Randomize Colors  | Up/Down Arrow |
 
 ### In-Game Controls
-| Action            | Button              |
-|-------------------|---------------------|
-| Rotate Left       | Left Arrow          |
-| Rotate Right      | Right Arrow         |
-| Smash Ball Down   | Space Bar           |
+
+| Action          | Button      |
+| --------------- | ----------- |
+| Rotate Left     | Left Arrow  |
+| Rotate Right    | Right Arrow |
+| Smash Ball Down | Space Bar   |
 
 ## 📈 Scoring System
 
@@ -69,7 +76,9 @@ Welcome to PolyBall - where geometry meets fun!
 ## 🗺️ Roadmap
 
 Here's what i'm planning for future updates (one day i hope):
+
 ### Short Term
+
 - [ ] Mobile port for Android devices
 - [ ] Touch controls optimization
 - [ ] Additional sound effects and music
@@ -81,6 +90,7 @@ Here's what i'm planning for future updates (one day i hope):
   - Trail effects
 
 ### Medium Term
+
 - [ ] iOS port
 - [ ] Online leaderboards
 - [ ] New game modes
@@ -94,6 +104,7 @@ Here's what i'm planning for future updates (one day i hope):
   - Sound effect packs
 
 ### Long Term
+
 - [ ] Level editor
 - [ ] Custom polygon creation
 - [ ] Cross-platform save system
@@ -107,6 +118,7 @@ Here's what i'm planning for future updates (one day i hope):
   - Special event cosmetics
 
 ### Shop System Plans
+
 - [ ] Virtual currency system
   - In-game coins earned through play
   - Premium currency option
@@ -116,25 +128,26 @@ Here's what i'm planning for future updates (one day i hope):
   - Daily challenges for rare items
 - [ ] Customization categories:
   - Ball customization
-    * Basic shapes
-    * Animated skins
-    * Particle trails
-    * Size variations
-    * Special effects
+    - Basic shapes
+    - Animated skins
+    - Particle trails
+    - Size variations
+    - Special effects
   - Line customization
-    * Pattern styles
-    * Glow effects
-    * Animation types
-    * Thickness options
-    * Color patterns
+    - Pattern styles
+    - Glow effects
+    - Animation types
+    - Thickness options
+    - Color patterns
   - Visual effects
-    * Death animations
-    * Score popups
-    * Background effects
-    * Color transition effects
-    * Impact effects
+    - Death animations
+    - Score popups
+    - Background effects
+    - Color transition effects
+    - Impact effects
 
 ### Technical Improvements
+
 - [ ] Performance optimization for mobile devices
 - [ ] Code refactoring for better maintainability
 - [ ] Enhanced physics system
