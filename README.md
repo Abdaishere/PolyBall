@@ -1,10 +1,4 @@
 # 🎮 PolyBall
-
-<p align="center">
-    <img src="https://i.imgur.com/qXqg17U.gif">
-    <img src="https://i.imgur.com/qTb41lg.gif">
-</p>
-
 Welcome to PolyBall - where geometry meets fun!
 
 ## 📸 Game Preview
@@ -19,7 +13,6 @@ Welcome to PolyBall - where geometry meets fun!
 
 - **Dynamic Polygon Creation**: Create stunning polygons with 3, 5, 7, or more sides
 - **Color Customization**: Add your personal touch with a vibrant color palette
-- **Skill-Based Gameplay**: Master the art of timing and precision
 - **High Score System**: Separate high scores for each polygon configuration
 - **Smooth Controls**: Intuitive keyboard-based gameplay
 
