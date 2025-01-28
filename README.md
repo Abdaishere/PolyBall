@@ -9,29 +9,11 @@ Welcome to PolyBall - where geometry meets fun!
 
 ## 📸 Game Preview
 
-### Main Menu
-
-<p align="center">
-    <img src="screenshots/mainMenu.png" alt="Main Menu">
-</p>
-
-### Gameplay Examples
-
-<p align="center">
-    <img src="screenshots/main.gif" alt="Gameplay">
-</p>
-
-### Different Polygon Shapes
-
-<p align="center">
-    <img src="screenshots/octagon.png" alt="Octagon Example">
-</p>
-
-### Controls Tutorial
-
-<p align="center">
-    <img src="screenshots/controls.gif" alt="Controls Tutorial">
-</p>
+| Main Menu | Gameplay |
+|:-------------------------:|:-------------------------:|
+| <img src="ScreenShots/mainMenu.png" alt="Main Menu" width="200"> | <img src="ScreenShots/main.gif" alt="Gameplay" width="200"> |
+| **Polygon Shapes** | **Controls Tutorial** |
+| <img src="ScreenShots/octagon.png" alt="Octagon Example" width="200"> | <img src="ScreenShots/controls.gif" alt="Controls Tutorial" width="200"> |
 
 ## ✨ Features
 
